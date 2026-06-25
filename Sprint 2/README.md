@@ -1,5 +1,9 @@
 # Cash-Flow Dashboard
 
+**Live Link:** [https://prodesk-nq6c.vercel.app/](https://prodesk-nq6c.vercel.app/)
+
+![Cash-Flow Dashboard Screenshot](dashboard_ss.png)
+
 Cash-Flow is a premium salary and expense tracking dashboard designed to help users manage their personal finances effectively. 
 
 ## Features
