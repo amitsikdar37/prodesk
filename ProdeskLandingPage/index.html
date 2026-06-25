@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodesk</title>
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="assets/herosectionimg.webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen w-full max-w-[100vw] overflow-x-hidden font-sans text-base leading-relaxed bg-bg-primary dark:bg-dark-bg-primary text-text-primary dark:text-dark-text-primary transition-colors duration-300">
+    <div class="flex flex-row justify-between items-center px-[4%] py-2 md:px-[5%] md:py-3 lg:px-[6%] lg:py-4 bg-bg-header dark:bg-dark-bg-header backdrop-blur-lg sticky top-0 z-[1000] border-b border-border-light dark:border-dark-border-light transition-colors duration-300">
+        <div class="flex items-center gap-3">
+            <div class="bg-[#161515] px-1.5 py-1 md:px-2 md:py-1.5 lg:px-2.5 lg:py-1.5 rounded inline-flex items-center justify-center transition-colors duration-300">
+                <img src="assets/prodesklogo.webp" alt="Prodesk IT Logo" width="38" height="38" class="h-[28px] md:h-[32px] lg:h-[38px] block object-contain">
+            </div>
+            <div class="font-raleway font-bold text-[1.15rem] md:text-[1.3rem] lg:text-2xl text-text-primary dark:text-dark-text-primary tracking-tight transition-colors duration-300">Prodesk IT</div>
+        </div>
+        <button class="hamburger flex md:hidden flex-col justify-center items-center gap-[5px] bg-transparent border-none cursor-pointer p-2 z-[1100]" id="hamburger" aria-label="Toggle navigation menu">
+            <span class="block w-[24px] h-[2px] bg-text-primary dark:bg-dark-text-primary transition-all duration-300 origin-center"></span>
+            <span class="block w-[24px] h-[2px] bg-text-primary dark:bg-dark-text-primary transition-all duration-300 origin-center"></span>
+            <span class="block w-[24px] h-[2px] bg-text-primary dark:bg-dark-text-primary transition-all duration-300 origin-center"></span>
+        </button>
+        <div class="nav-menu absolute md:static top-full left-0 w-full md:w-auto h-auto bg-bg-secondary dark:bg-dark-bg-secondary md:bg-transparent md:dark:bg-transparent backdrop-blur-[10px] md:backdrop-blur-none flex flex-col md:flex-row justify-start md:justify-center items-center gap-6 md:gap-8 py-8 md:py-0 border-b border-border-light dark:border-dark-border-light md:border-none shadow-[0_10px_30px_rgba(0,0,0,0.05)] md:shadow-none opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto -translate-y-[15px] md:translate-y-0 transition-all duration-300 z-[999]" id="nav-menu">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <button class="relative bg-transparent border-none font-hanken text-[1.1rem] md:text-sm text-text-secondary dark:text-dark-text-secondary cursor-pointer px-3 py-2 transition-colors duration-300 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">HOME</button>
+                <button class="relative bg-transparent border-none font-hanken text-[1.1rem] md:text-sm text-text-secondary dark:text-dark-text-secondary cursor-pointer px-3 py-2 transition-colors duration-300 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">ABOUT</button>
+                <button class="relative bg-transparent border-none font-hanken text-[1.1rem] md:text-sm text-text-secondary dark:text-dark-text-secondary cursor-pointer px-3 py-2 transition-colors duration-300 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">SERVICES</button>
+                <button class="relative bg-transparent border-none font-hanken text-[1.1rem] md:text-sm text-text-secondary dark:text-dark-text-secondary cursor-pointer px-3 py-2 transition-colors duration-300 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100">CONTACT</button>
+            </div>
+            <button class="theme-toggle bg-transparent border-none cursor-pointer p-2 flex items-center justify-center text-text-secondary dark:text-dark-text-secondary transition-all duration-300 rounded-full w-[36px] h-[36px] hover:text-text-primary dark:hover:text-dark-text-primary hover:scale-[1.08] hover:bg-border-light dark:hover:bg-dark-border-light group" id="theme-toggle" aria-label="Toggle Theme">
+                <svg class="w-5 h-5 stroke-current hidden dark:block" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="w-5 h-5 stroke-current block dark:hidden" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <main>
+    <div class="herosection flex flex-col justify-between items-center">
+        <div class="herosection-container w-full max-w-[800px] h-auto flex flex-col justify-between items-center mt-[2rem] md:mt-[3rem] lg:mt-[clamp(3.75rem,8vw,10rem)] gap-4 md:gap-6 px-[5%] lg:px-0">
+            <div class="heading font-raleway font-extrabold text-[2.25rem] leading-[2.75rem] tracking-[-0.05rem] md:text-[3rem] md:leading-[3.5rem] md:tracking-[-0.08rem] lg:text-[5.5rem] lg:leading-[6rem] lg:tracking-[-0.165rem] text-text-primary dark:text-dark-text-primary text-center transition-colors duration-300">
+                Elevate Your Digital Presence
+            </div>
+            <div class="sub-heading font-hanken font-normal text-[0.9rem] leading-[1.5rem] md:text-[1rem] md:leading-[1.6rem] lg:text-[1.125rem] lg:leading-[1.75rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.03rem] text-center transition-colors duration-300">
+                We craft data-driven digital experiences that drive growth and maximize ROI for
+                visionary brands.
+            </div>
+            <button class="font-hanken text-[0.85rem] lg:text-[0.95rem] font-semibold bg-btn-bg dark:bg-dark-btn-bg text-btn-text dark:text-dark-btn-text border-2 border-btn-border dark:border-dark-btn-border px-6 py-3 lg:px-[1.85rem] lg:py-[0.85rem] rounded-none cursor-pointer relative overflow-hidden z-[1] transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:text-btn-hover-text dark:hover:text-dark-btn-hover-text hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] active:translate-y-0 active:shadow-[0_4px_12px_rgba(0,0,0,0.05)] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-btn-hover-bg dark:before:bg-dark-btn-hover-bg before:scale-x-0 before:origin-left before:transition-transform before:duration-300 before:ease-[cubic-bezier(0.25,1,0.5,1)] before:-z-10 hover:before:scale-x-100">Get Started</button>
+        </div>
+        <div class="hero-img mt-[2rem] mb-[2rem] md:mt-[3rem] md:mb-[3rem] lg:mt-[5rem] lg:mb-[5rem] px-0 md:px-[5%] lg:px-0">
+            <img src="assets/herosectionimg.webp" alt="Digital Presence Abstract Graphic" width="800" height="500" fetchpriority="high" class="w-full h-auto max-w-full">
+        </div>
+    </div>
+
+    <div class="services-section w-full bg-bg-secondary dark:bg-dark-bg-secondary py-[3rem] pb-[6rem] md:py-[4rem] md:pb-[8rem] lg:pt-[6rem] lg:pb-[14rem] flex justify-center items-center transition-colors duration-300">
+        <div class="services-container h-auto w-full max-w-[1280px] flex flex-col items-center gap-[3rem] md:gap-[4rem] px-[5%] lg:px-[6%]">
+            <div class="service-tittle font-raleway font-bold text-[2rem] leading-[2.5rem] md:text-[2.5rem] md:leading-[3rem] lg:text-[3.5rem] lg:leading-[4rem] text-text-primary dark:text-dark-text-primary text-center relative pb-6 transition-colors duration-300 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[80px] after:h-[2px] after:bg-accent-line dark:after:bg-dark-accent-line after:transition-colors after:duration-300">Our Services</div>
+            <div class="card-container flex flex-col md:flex-row justify-between items-center md:items-stretch gap-[2rem] md:gap-[3rem] w-full">
+                <div class="services-card group h-auto flex-1 flex flex-col gap-6 p-[2rem] md:p-[2.5rem] border border-border-card dark:border-dark-border-card rounded-lg bg-bg-card dark:bg-dark-bg-card transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] w-full max-w-[480px] md:max-w-none hover:-translate-y-2 hover:border-border-card-hover dark:hover:border-dark-border-card-hover hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
+                    <div class="icon flex items-center justify-center h-[56px] w-[56px] bg-card-icon-bg dark:bg-dark-card-icon-bg rounded-xl transition-all duration-300 group-hover:bg-text-primary dark:group-hover:bg-dark-text-primary">
+                        <img src="assets/seoicon.webp" alt="SEO Strategy Icon" width="24" height="24" loading="lazy" class="w-6 h-6 object-contain filter-none dark:filter-invert transition-all duration-300 group-hover:filter-invert dark:group-hover:filter-none">
+                    </div>
+                    <div class="services-tittle font-raleway text-[1.25rem] leading-[1.75rem] md:text-[1.5rem] md:leading-[2rem] font-bold text-text-primary dark:text-dark-text-primary">SEO Strategy</div>
+                    <div class="services-sub-tittle font-hanken font-normal text-[1rem] leading-[1.75rem] text-text-secondary dark:text-dark-text-secondary transition-colors duration-300">
+                        Focus on organic growth and
+                        search visibility to dominate your
+                        market with precision engineering.
+                    </div>
+                </div>
+                <div class="services-card group h-auto flex-1 flex flex-col gap-6 p-[2rem] md:p-[2.5rem] border border-border-card dark:border-dark-border-card rounded-lg bg-bg-card dark:bg-dark-bg-card transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] w-full max-w-[480px] md:max-w-none hover:-translate-y-2 hover:border-border-card-hover dark:hover:border-dark-border-card-hover hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
+                    <div class="icon flex items-center justify-center h-[56px] w-[56px] bg-card-icon-bg dark:bg-dark-card-icon-bg rounded-xl transition-all duration-300 group-hover:bg-text-primary dark:group-hover:bg-dark-text-primary">
+                        <img src="assets/webdevicon.webp" alt="Web Development Icon" width="24" height="24" loading="lazy" class="w-6 h-6 object-contain filter-none dark:filter-invert transition-all duration-300 group-hover:filter-invert dark:group-hover:filter-none">
+                    </div>
+                    <div class="services-tittle font-raleway text-[1.25rem] leading-[1.75rem] md:text-[1.5rem] md:leading-[2rem] font-bold text-text-primary dark:text-dark-text-primary">Web Development</div>
+                    <div class="services-sub-tittle font-hanken font-normal text-[1rem] leading-[1.75rem] text-text-secondary dark:text-dark-text-secondary transition-colors duration-300">
+                        High-performance, responsive
+                        websites engineered for conversion
+                        and flawless user experiences.
+                    </div>
+                </div>
+                <div class="services-card group h-auto flex-1 flex flex-col gap-6 p-[2rem] md:p-[2.5rem] border border-border-card dark:border-dark-border-card rounded-lg bg-bg-card dark:bg-dark-bg-card transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] w-full max-w-[480px] md:max-w-none hover:-translate-y-2 hover:border-border-card-hover dark:hover:border-dark-border-card-hover hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]">
+                    <div class="icon flex items-center justify-center h-[56px] w-[56px] bg-card-icon-bg dark:bg-dark-card-icon-bg rounded-xl transition-all duration-300 group-hover:bg-text-primary dark:group-hover:bg-dark-text-primary">
+                        <img src="assets/DigitalMarketingicon.webp" alt="Digital Marketing Icon" width="24" height="24" loading="lazy" class="w-6 h-6 object-contain filter-none dark:filter-invert transition-all duration-300 group-hover:filter-invert dark:group-hover:filter-none">
+                    </div>
+                    <div class="services-tittle font-raleway text-[1.25rem] leading-[1.75rem] md:text-[1.5rem] md:leading-[2rem] font-bold text-text-primary dark:text-dark-text-primary">Digital Marketing</div>
+                    <div class="services-sub-tittle font-hanken font-normal text-[1rem] leading-[1.75rem] text-text-secondary dark:text-dark-text-secondary transition-colors duration-300">
+                        Comprehensive campaigns across
+                        social and search to maximize ROI
+                        and elevate brand positioning.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+    <div class="footer flex flex-col bg-bg-tertiary dark:bg-dark-bg-tertiary border-t border-border-light dark:border-dark-border-light w-full px-[4%] py-[2.5rem] pb-[1.5rem] md:px-[5%] md:py-[3rem] md:pb-[2rem] lg:px-[6%] lg:py-[4rem] lg:pb-[2rem] transition-colors duration-300">
+        <div class="footer-top grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-[3rem] lg:gap-[4rem] text-center lg:text-left items-center lg:items-start w-full pb-[2.5rem] lg:pb-[3rem]">
+            <div class="footer-col brand-col flex flex-col gap-6 items-center lg:items-start">
+                <div class="footer-lft-side flex items-center gap-3 justify-center lg:justify-start">
+                    <div class="bg-[#161515] px-1.5 py-1 md:px-2 md:py-1.5 lg:px-2.5 lg:py-1.5 rounded inline-flex items-center justify-center transition-colors duration-300">
+                        <img src="assets/prodesklogo.webp" alt="Prodesk IT Logo" width="38" height="38" loading="lazy" class="h-[28px] md:h-[32px] lg:h-[38px] block object-contain">
+                    </div>
+                    <div class="name font-raleway font-bold text-[1.15rem] md:text-[1.5rem] text-text-primary dark:text-dark-text-primary tracking-tight transition-colors duration-300">Prodesk IT</div>
+                </div>
+                <p class="brand-tagline font-hanken text-[0.875rem] md:text-[0.95rem] text-text-secondary dark:text-dark-text-secondary leading-[1.6] max-w-full lg:max-w-[320px] transition-colors duration-300">Crafting data-driven digital experiences to elevate visionary brands.</p>
+                <div class="social-links flex gap-3 justify-center lg:justify-start">
+                    <a href="#" class="social-icon inline-flex items-center justify-center w-[36px] h-[36px] border-[1.5px] border-text-primary dark:border-dark-text-primary rounded-full text-text-primary dark:text-dark-text-primary bg-transparent transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-text-primary dark:hover:bg-dark-text-primary hover:text-text-light dark:hover:text-dark-text-light hover:-translate-y-[3px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" aria-label="LinkedIn">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon inline-flex items-center justify-center w-[36px] h-[36px] border-[1.5px] border-text-primary dark:border-dark-text-primary rounded-full text-text-primary dark:text-dark-text-primary bg-transparent transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-text-primary dark:hover:bg-dark-text-primary hover:text-text-light dark:hover:text-dark-text-light hover:-translate-y-[3px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" aria-label="Twitter">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon inline-flex items-center justify-center w-[36px] h-[36px] border-[1.5px] border-text-primary dark:border-dark-text-primary rounded-full text-text-primary dark:text-dark-text-primary bg-transparent transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-text-primary dark:hover:bg-dark-text-primary hover:text-text-light dark:hover:text-dark-text-light hover:-translate-y-[3px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" aria-label="Facebook">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon inline-flex items-center justify-center w-[36px] h-[36px] border-[1.5px] border-text-primary dark:border-dark-text-primary rounded-full text-text-primary dark:text-dark-text-primary bg-transparent transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-text-primary dark:hover:bg-dark-text-primary hover:text-text-light dark:hover:text-dark-text-light hover:-translate-y-[3px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]" aria-label="Instagram">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-col links-col flex flex-col gap-6 items-center lg:items-start">
+                <h4 class="footer-col-title font-raleway font-bold text-[0.875rem] text-text-primary dark:text-dark-text-primary tracking-[0.08em] uppercase transition-colors duration-300">Company</h4>
+                <div class="footer-links flex flex-col gap-3">
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Home</a>
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">About</a>
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Services</a>
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-col links-col flex flex-col gap-6 items-center lg:items-start">
+                <h4 class="footer-col-title font-raleway font-bold text-[0.875rem] text-text-primary dark:text-dark-text-primary tracking-[0.08em] uppercase transition-colors duration-300">Legal</h4>
+                <div class="footer-links flex flex-col gap-3">
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Privacy Policy</a>
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Terms of Service</a>
+                    <a href="#" class="font-hanken text-[0.8rem] md:text-[0.875rem] text-text-secondary dark:text-dark-text-secondary tracking-[0.02em] w-fit relative py-[0.15rem] transition-colors duration-250 mx-auto lg:mx-0 hover:text-text-primary dark:hover:text-dark-text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-text-primary dark:after:bg-dark-text-primary after:scale-x-0 after:origin-center lg:after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom border-t border-border-light dark:border-dark-border-light pt-[2rem] w-full flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 text-center md:text-left transition-colors duration-300">
+            <div class="copyright font-hanken text-[0.75rem] md:text-[0.8rem] text-text-tertiary dark:text-dark-text-tertiary tracking-[0.01em] transition-colors duration-300">
+                © 2024 Prodesk IT. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.nav-links a, .nav-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>

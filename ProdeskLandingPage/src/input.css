@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+
+  html::-webkit-scrollbar {
+    display: none; 
+  }
+
+  body {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+  }
+
+  body::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .nav-menu.active {
+    @apply opacity-100 pointer-events-auto translate-y-0;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    @apply translate-y-[7px] rotate-45;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    @apply opacity-0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    @apply -translate-y-[7px] -rotate-45;
+  }
+}
+
+@layer utilities {
+  .filter-none {
+    filter: none;
+  }
+  .filter-invert {
+    filter: brightness(0) invert(1);
+  }
+}
