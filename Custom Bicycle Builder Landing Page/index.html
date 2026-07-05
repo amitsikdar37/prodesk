@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Bicycle Builder - Corporate Dashboard</title>
+    <meta name="description" content="Internal corporate tool for custom bicycle configuration.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="container">
+            <h1>Corporate Bicycle Solutions</h1>
+            <p>Custom Builder Dashboard</p>
+        </div>
+    </header>
+
+    <main class="app-main container">
+        <section class="builder-section" aria-labelledby="builder-title">
+            <h2 id="builder-title">Configure New Bicycle</h2>
+            
+            <div id="error-summary" class="error-summary hidden" role="alert" aria-live="assertive">
+                Please correct the highlighted fields below.
+            </div>
+
+            <form id="bicycle-form" novalidate>
+                <div class="form-group">
+                    <label for="customer-name">Customer Name <span aria-hidden="true" class="required">*</span></label>
+                    <input type="text" id="customer-name" name="customer-name" required aria-required="true" placeholder="e.g. Jane Doe">
+                    <span class="error-message" id="error-customer-name">Customer Name is required.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="frame-type">Frame Type <span aria-hidden="true" class="required">*</span></label>
+                    <select id="frame-type" name="frame-type" required aria-required="true">
+                        <option value="" disabled selected>Select a frame type</option>
+                        <option value="road">Road - Lightweight</option>
+                        <option value="mountain">Mountain - Rugged</option>
+                        <option value="hybrid">Hybrid - Versatile</option>
+                        <option value="commuter">Commuter - Comfort</option>
+                    </select>
+                    <span class="error-message" id="error-frame-type">Please select a frame type.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="wheel-size">Wheel Size <span aria-hidden="true" class="required">*</span></label>
+                    <select id="wheel-size" name="wheel-size" required aria-required="true">
+                        <option value="" disabled selected>Select wheel size</option>
+                        <option value="26">26"</option>
+                        <option value="27.5">27.5"</option>
+                        <option value="29">29"</option>
+                        <option value="700c">700c</option>
+                    </select>
+                    <span class="error-message" id="error-wheel-size">Please select a wheel size.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="frame-color">Frame Color <span aria-hidden="true" class="required">*</span></label>
+                    <select id="frame-color" name="frame-color" required aria-required="true">
+                        <option value="" disabled selected>Select a color</option>
+                        <option value="obsidian">Obsidian Black</option>
+                        <option value="slate">Slate Grey</option>
+                        <option value="ash">Ash Silver</option>
+                        <option value="pearl">Pearl White</option>
+                    </select>
+                    <span class="error-message" id="error-frame-color">Please select a frame color.</span>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn-primary">
+                    <span class="btn-text">Build Bicycle</span>
+                    <span class="spinner hidden" aria-hidden="true"></span>
+                </button>
+            </form>
+        </section>
+
+        <section class="results-section" aria-labelledby="results-title">
+            <h2 id="results-title">Recent Builds</h2>
+            
+            <div id="results-container" aria-live="polite">
+                <div id="empty-state" class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <p>No data found.</p>
+                    <p class="text-subtle">Configure a new bicycle to see it here.</p>
+                </div>
+
+                <ul id="build-list" class="build-list hidden">
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

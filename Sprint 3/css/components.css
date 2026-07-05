@@ -1,0 +1,96 @@
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-outline-variant);
+    padding: 12px 16px;
+}
+@media (min-width: 768px) {
+    .app-header {
+        padding: 12px 40px;
+    }
+}
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--color-on-background);
+}
+.header-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-primary);
+}
+.header-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+.hero-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+}
+.hero-title {
+    font-size: 2rem;
+    font-weight: 400;
+}
+.mode-toggle {
+    display: flex;
+    padding: 12px 16px;
+}
+.mode-toggle-inner {
+    display: flex;
+    height: 40px;
+    flex: 1;
+    max-width: 24rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface-container);
+    padding: 4px;
+    border: 1px solid var(--color-outline-variant);
+}
+.mode-label {
+    display: flex;
+    cursor: pointer;
+    height: 100%;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    padding: 0 8px;
+    color: var(--color-on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+.mode-label:has(input:checked) {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+}
+.mode-label input {
+    visibility: hidden;
+    width: 0;
+}
+.error-state {
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-error);
+    text-align: center;
+}
+.error-icon {
+    font-size: 2.25rem;
+    margin-bottom: 8px;
+}
+.error-text {
+    font-size: 1.125rem;
+    font-weight: 500;
+}

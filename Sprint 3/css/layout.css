@@ -1,0 +1,36 @@
+.app-wrapper {
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--color-background);
+}
+.layout-container {
+    display: flex;
+    height: 100%;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.layout-inner {
+    padding: 20px 16px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .layout-inner {
+        padding: 20px 40px;
+    }
+}
+@media (min-width: 1024px) {
+    .layout-inner {
+        padding: 20px 160px;
+    }
+}
+.layout-content-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 960px;
+    flex: 1;
+}

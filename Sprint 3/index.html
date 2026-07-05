@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>GitHub Fetcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="layout-container">
+            <div class="layout-inner">
+                <div class="layout-content-container">
+                    <header class="app-header">
+                        <div class="header-brand">
+                            <div class="header-icon">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">code</span>
+                            </div>
+                            <h2 class="header-title">GitHub Fetcher</h2>
+                        </div>
+                    </header>
+
+                    <div class="hero-section">
+                        <h1 class="hero-title">Developer Search & Battle</h1>
+                    </div>
+
+                    <div class="mode-toggle">
+                        <div class="mode-toggle-inner">
+                            <label class="mode-label">
+                                <span>Single Search</span>
+                                <input checked type="radio" name="mode" value="single" onchange="toggleMode()"/>
+                            </label>
+                            <label class="mode-label">
+                                <span>GitHub Battle</span>
+                                <input type="radio" name="mode" value="battle" onchange="toggleMode()"/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="search-section" id="search-section">
+                        <div class="search-inputs">
+                            <div class="search-input-wrapper">
+                                <label class="search-field">
+                                    <div class="search-field-inner">
+                                        <div class="search-icon">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </div>
+                                        <input class="search-input" id="user-input-1" onkeypress="handleEnter(event)" placeholder="Enter GitHub username" value=""/>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="search-input-wrapper hidden" id="battle-input-container">
+                                <label class="search-field">
+                                    <div class="search-field-inner">
+                                        <div class="search-icon">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </div>
+                                        <input class="search-input" id="user-input-2" onkeypress="handleEnter(event)" placeholder="Enter second username" value=""/>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="search-button" onclick="performAction()">
+                            <span id="btn-text">Search</span>
+                            <div class="loader hidden" id="btn-loader"></div>
+                        </button>
+                    </div>
+
+                    <div class="error-state hidden" id="error-state">
+                        <span class="material-symbols-outlined error-icon" style="font-variation-settings: 'FILL' 1;">error</span>
+                        <p class="error-text" id="error-message">User not found.</p>
+                    </div>
+
+                    <div class="results-area" id="results-area">
+                        <div class="result-column hidden" id="result-1">
+                            <div class="result-card">
+                                <div class="battle-status hidden" id="battle-status-1">WINNER</div>
+                                <div class="user-profile">
+                                    <img class="avatar" id="avatar-1" src="" alt="Avatar"/>
+                                    <div class="user-details">
+                                        <h3 class="user-name" id="name-1">Name</h3>
+                                        <p class="user-username" id="username-1">@username</p>
+                                        <p class="user-bio" id="bio-1">Bio</p>
+                                        <div class="user-stats">
+                                            <div class="stat-item"><span class="material-symbols-outlined">calendar_month</span> <span id="joined-1">Joined</span></div>
+                                            <div class="stat-item"><span class="material-symbols-outlined">link</span> <a class="stat-link" href="#" id="url-1" target="_blank">Portfolio</a></div>
+                                            <div class="stat-item"><span class="material-symbols-outlined">star</span> <span id="stars-1">0 Stars</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a class="view-profile-btn" href="#" id="github-link-1" target="_blank">View Profile</a>
+                                </div>
+                            </div>
+                            <div class="repos-section">
+                                <h4 class="repos-title">Latest Repositories</h4>
+                                <ul class="repo-list" id="repos-1">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="result-column hidden" id="result-2">
+                            <div class="result-card">
+                                <div class="battle-status hidden" id="battle-status-2">WINNER</div>
+                                <div class="user-profile">
+                                    <img class="avatar" id="avatar-2" src="" alt="Avatar"/>
+                                    <div class="user-details">
+                                        <h3 class="user-name" id="name-2">Name</h3>
+                                        <p class="user-username" id="username-2">@username</p>
+                                        <p class="user-bio" id="bio-2">Bio</p>
+                                        <div class="user-stats">
+                                            <div class="stat-item"><span class="material-symbols-outlined">calendar_month</span> <span id="joined-2">Joined</span></div>
+                                            <div class="stat-item"><span class="material-symbols-outlined">link</span> <a class="stat-link" href="#" id="url-2" target="_blank">Portfolio</a></div>
+                                            <div class="stat-item"><span class="material-symbols-outlined">star</span> <span id="stars-2">0 Stars</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a class="view-profile-btn" href="#" id="github-link-2" target="_blank">View Profile</a>
+                                </div>
+                            </div>
+                            <div class="repos-section">
+                                <h4 class="repos-title">Latest Repositories</h4>
+                                <ul class="repo-list" id="repos-2">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
