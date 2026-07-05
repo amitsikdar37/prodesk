@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vet Clinic Lobby Dog Fetcher - A simple application to display dog images for the clinic lobby.">
+    <title>Vet Clinic Lobby - Dog API Fetcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-container">
+        <header>
+            <h1>Vet Clinic Companion</h1>
+            <p>Fetch a furry friend to brighten the lobby.</p>
+        </header>
+
+        <section class="controls-section" aria-label="Controls">
+            <form id="dog-fetch-form" novalidate>
+                <div class="form-group">
+                    <label for="breed-input">Search Breed (optional)</label>
+                    <input 
+                        type="text" 
+                        id="breed-input" 
+                        name="breed" 
+                        placeholder="e.g., hound, retriever" 
+                        aria-describedby="breed-help"
+                    >
+                    <small id="breed-help">Leave empty for a random dog.</small>
+                    <span id="input-error" class="error-text hidden" aria-live="polite"></span>
+                </div>
+                <button type="submit" id="fetch-btn" aria-label="Fetch Dog Image">Fetch Dog</button>
+            </form>
+        </section>
+
+        <section class="display-section" aria-live="polite" aria-atomic="true">
+            <div id="loading-state" class="state-container hidden">
+                <div class="spinner" role="status" aria-label="Loading"></div>
+                <p>Fetching dog data...</p>
+            </div>
+
+            <div id="error-state" class="state-container hidden">
+                <p id="error-message">An error occurred while fetching data.</p>
+            </div>
+
+            <div id="empty-state" class="state-container hidden">
+                <p>No data found. Try another breed or a random search.</p>
+            </div>
+
+            <div id="result-state" class="state-container hidden">
+                <img id="dog-image" src="" alt="A randomly fetched dog" class="responsive-img">
+                <p id="dog-breed-label" class="breed-label"></p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

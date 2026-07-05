@@ -1,0 +1,200 @@
+:root {
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    
+    --primary-color: var(--gray-900);
+    --secondary-color: var(--gray-600);
+    --bg-color: var(--gray-100);
+    --surface-color: #ffffff;
+    --border-color: var(--gray-300);
+    --error-color: #dc2626;
+    --focus-ring: 0 0 0 3px rgba(17, 24, 39, 0.2);
+
+    --spacing-1: 4px;
+    --spacing-2: 8px;
+    --spacing-3: 16px;
+    --spacing-4: 24px;
+    --spacing-5: 32px;
+    --spacing-6: 48px;
+
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-5);
+    min-height: 100vh;
+}
+
+.app-container {
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 600px;
+    padding: var(--spacing-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-2);
+}
+
+header p {
+    color: var(--secondary-color);
+    font-size: 1rem;
+}
+
+.controls-section {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+}
+
+label {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+input[type="text"] {
+    padding: var(--spacing-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+input[type="text"].invalid {
+    border-color: var(--error-color);
+}
+
+small {
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+}
+
+.error-text {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s, transform 0.1s;
+    outline: none;
+}
+
+button:hover {
+    background-color: var(--gray-800);
+}
+
+button:focus-visible {
+    box-shadow: var(--focus-ring);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: var(--gray-400);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.display-section {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--gray-50);
+    border-radius: var(--border-radius);
+    border: 1px dashed var(--border-color);
+    padding: var(--spacing-4);
+}
+
+.state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.responsive-img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.breed-label {
+    font-weight: 500;
+    color: var(--gray-700);
+    text-transform: capitalize;
+    margin-top: var(--spacing-3);
+}
