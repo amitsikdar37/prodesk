@@ -1,0 +1,3 @@
+1. [App.jsx#L200-206](textBlock;file:///d%3A/VS%20Code/Prodesk/Sprint%204/The%20AI%20Cover%20Letter%20Generator/src/App.jsx#L200-206) i want you to create a beautiful css saying something to the user when coverletter is null. 
+
+2. [App.jsx#L201-211](textBlock;file:///d%3A/VS%20Code/Prodesk/Sprint%204/The%20AI%20Cover%20Letter%20Generator/src/App.jsx#L201-211) i want you to change the copy icon when isCopied is true 
