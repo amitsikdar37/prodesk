@@ -1,5 +1,7 @@
 import './App.css'
+
 import { useState } from 'react'
+import { generateCoverLetter } from './geminiService'
 
 function App() {
 
@@ -14,6 +16,8 @@ function App() {
 
   const [isCopied, setIsCopied] = useState(false);
 
+  const [isLoading, setLoading] = useState(false);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -22,26 +26,26 @@ function App() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
-    const generatedCoverLetter = `Subject: Application for Job Opening
+    try {
+      setLoading(true);
 
-Dear Hiring Team at ${formData.targetCompany || '[Target Company]'},
-
-I am writing to express my enthusiastic interest in the ${formData.jobRole || '[Job Role]'} position. My name is ${formData.candidateName || '[Candidate Name]'},
-and I bring a dedicated skillset tailored to your engineering and design needs.
-
-Throughout my career, I have honed my expertise in key technical areas, specifically:
-${formData.keySkills || '[Key Skills]'}
-
-I admire ${formData.targetCompany || '[Target Company]'}s commitment to building cutting-edge web applications, and I am excited about the prospect of contributing to your team. Thank you for your time and consideration.
-
-Warm regards,
-${formData.candidateName || '[Candidate Name]'} `;
-
-    setCoverLetter(generatedCoverLetter);
-  }
+      const generatedLetter = await generateCoverLetter(
+        formData.candidateName, 
+        formData.jobRole,
+        formData.targetCompany, 
+        formData.keySkills
+      );
+      
+      setCoverLetter(generatedLetter);
+    } catch (error) {
+      console.error('Error generating cover letter: ', error)
+    } finally {
+      setLoading(false);
+    }
+  }; 
 
   const copyCoverLetter = async () => {
     try {
@@ -93,6 +97,7 @@ ${formData.candidateName || '[Candidate Name]'} `;
                 </svg>
                 <input
                   type="text"
+                  required
                   id="candidateName"
                   name="candidateName"
                   className="form-input"
@@ -114,6 +119,7 @@ ${formData.candidateName || '[Candidate Name]'} `;
                 </svg>
                 <input
                   type="text"
+                  required
                   id="jobRole"
                   name="jobRole"
                   className="form-input"
@@ -138,6 +144,7 @@ ${formData.candidateName || '[Candidate Name]'} `;
                 </svg>
                 <input
                   type="text"
+                  required
                   id="targetCompany"
                   name="targetCompany"
                   className="form-input"
@@ -160,6 +167,7 @@ ${formData.candidateName || '[Candidate Name]'} `;
                 </svg>
                 <textarea
                   id="keySkills"
+                  required
                   name="keySkills"
                   className="form-input"
                   onChange={handleInputChange}
@@ -168,16 +176,24 @@ ${formData.candidateName || '[Candidate Name]'} `;
               </div>
             </div>
 
-            {/* Submit Button (Visual representation) */}
-            <button type="submit" className="btn-submit">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                <polyline points="2 17 12 22 22 17" />
-                <polyline points="2 12 12 17 22 12" />
-              </svg>
-              Generate Cover Letter
-            </button>
-
+            {isLoading ? (
+              <button type="submit" className="btn-submit" disabled={true}>
+                <svg className="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" style={{ marginRight: '0.5rem' }}>
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.2" />
+                  <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Generating...
+              </button>
+            ) : (
+              <button type="submit" className="btn-submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                  <polyline points="2 17 12 22 22 17" />
+                  <polyline points="2 12 12 17 22 12" />
+                </svg>
+                Generate Cover Letter
+              </button>
+            )}
           </form>
         </section>
 

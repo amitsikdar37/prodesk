@@ -195,6 +195,28 @@ textarea.form-input {
   transform: translateY(0);
 }
 
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: var(--text-muted);
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Preview Card Specifics */
 .preview-card {
   height: 100%;
