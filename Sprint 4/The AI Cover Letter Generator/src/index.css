@@ -1,7 +1,6 @@
 :root {
   --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   
-  /* Color Palette - Premium Slate & Deep Indigo */
   --bg-base: #0b0f19;
   --bg-surface: #131b2e;
   --bg-surface-hover: #1b2641;
@@ -16,9 +15,8 @@
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   
-  /* Accent Gradients */
-  --accent-primary: #6366f1; /* Indigo */
-  --accent-secondary: #a855f7; /* Purple */
+  --accent-primary: #6366f1;
+  --accent-secondary: #a855f7;
   --gradient-accent: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   --gradient-text: linear-gradient(135deg, #e2e8f0 30%, #94a3b8 100%);
   --gradient-glow: radial-gradient(circle at top, rgba(99, 102, 241, 0.15), transparent 70%);
@@ -46,7 +44,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

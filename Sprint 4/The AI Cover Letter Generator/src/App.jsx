@@ -1,65 +1,30 @@
 import './App.css'
 
-import { useState } from 'react'
-import { generateCoverLetter } from './geminiService'
+import { useCoverLetter } from './hooks/useCoverLetter'
+
+import { parseMarkdownToHTML } from './utils/markdownParser'
 
 function App() {
 
-  const [formData, setFormData] = useState({
-    candidateName: '',
-    jobRole: '',
-    targetCompany: '',
-    keySkills: ''
-  });
-
-  const [coverLetter, setCoverLetter] = useState(null);
-
-  const [isCopied, setIsCopied] = useState(false);
-
-  const [isLoading, setLoading] = useState(false);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async(event) => {
-    event.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const generatedLetter = await generateCoverLetter(
-        formData.candidateName, 
-        formData.jobRole,
-        formData.targetCompany, 
-        formData.keySkills
-      );
-      
-      setCoverLetter(generatedLetter);
-    } catch (error) {
-      console.error('Error generating cover letter: ', error)
-    } finally {
-      setLoading(false);
-    }
-  }; 
-
-  const copyCoverLetter = async () => {
-    try {
-      await navigator.clipboard.writeText(coverLetter);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch {
-      console.log('Failed to copy cover letter')
-    }
-  }
+  const {
+    formData,
+    coverLetter,
+    isCopied,
+    isLoading,
+    resumeFileName,
+    isExtracting,
+    isDragActive,
+    handleInputChange,
+    handleFileChange,
+    handleDrag,
+    handleDrop,
+    handleRemoveResume,
+    handleSubmit,
+    copyCoverLetter
+  } = useCoverLetter();
 
   return (
     <div className="app-container">
-      {/* App Header */}
       <header className="app-header">
         <h1 className="app-title">AI Cover Letter Generator</h1>
         <p className="app-subtitle">
@@ -67,10 +32,8 @@ function App() {
         </p>
       </header>
 
-      {/* Main Grid Content */}
       <main className="app-content-grid">
 
-        {/* Left Card: Input Form */}
         <section className="glass-card">
           <div className="card-header">
             <h2 className="card-title">
@@ -85,7 +48,6 @@ function App() {
 
           <form className="cover-letter-form" onSubmit={handleSubmit}>
 
-            {/* Input 1: Candidate Name */}
             <div className="form-group">
               <label htmlFor="candidateName" className="form-label">
                 Candidate Name
@@ -107,7 +69,77 @@ function App() {
               </div>
             </div>
 
-            {/* Input 2: Job Role */}
+            <div className="form-group">
+              <label className="form-label">
+                Upload Resume (PDF)
+              </label>
+              
+              <input
+                type="file"
+                id="resume-upload"
+                accept="application/pdf"
+                className="file-input-hidden"
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+
+              {resumeFileName ? (
+                <div className="resume-file-badge">
+                  <div className="resume-file-info">
+                    <svg className="file-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <span className="file-name" title={resumeFileName}>
+                      {resumeFileName}
+                    </span>
+                    {isExtracting && <span className="extracting-indicator">Parsing...</span>}
+                    {!isExtracting && <span className="extracted-badge">Extracted</span>}
+                  </div>
+                  <button 
+                    type="button" 
+                    className="btn-remove-file" 
+                    onClick={handleRemoveResume}
+                    aria-label="Remove uploaded resume"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                <label 
+                  htmlFor="resume-upload" 
+                  className={`resume-dropzone ${isDragActive ? 'dropzone-active' : ''} ${isExtracting ? 'extracting' : ''}`}
+                  onDragEnter={handleDrag}
+                  onDragOver={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  {isExtracting ? (
+                    <div className="dropzone-loading">
+                      <svg className="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.2" />
+                        <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Extracting resume text...</span>
+                    </div>
+                  ) : (
+                    <div className="dropzone-content">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                      </svg>
+                      <span className="dropzone-title">Drag & drop your resume PDF here</span>
+                      <span className="dropzone-subtitle">or click to browse files</span>
+                    </div>
+                  )}
+                </label>
+              )}
+            </div>
+
             <div className="form-group">
               <label htmlFor="jobRole" className="form-label">
                 Job Role
@@ -129,7 +161,6 @@ function App() {
               </div>
             </div>
 
-            {/* Input 3: Target Company */}
             <div className="form-group">
               <label htmlFor="targetCompany" className="form-label">
                 Target Company
@@ -154,7 +185,6 @@ function App() {
               </div>
             </div>
 
-            {/* Input 4: Key Skills */}
             <div className="form-group">
               <label htmlFor="keySkills" className="form-label">
                 Key Skills
@@ -197,7 +227,6 @@ function App() {
           </form>
         </section>
 
-        {/* Right Card: Template Preview Area */}
         <section className="glass-card preview-card">
           <div className="card-header">
             <div className="preview-header-actions">
@@ -237,7 +266,15 @@ function App() {
 
         {coverLetter ? (
           <div className="document-canvas">
-            <pre className="cover-letter-text">{coverLetter}</pre>
+            <div className="cover-letter-html">
+              {parseMarkdownToHTML(coverLetter).map((paragraph, index) => (
+                <p 
+                  key={index} 
+                  className="cover-letter-paragraph" 
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="empty-preview-container">
@@ -264,13 +301,12 @@ function App() {
 
     </main>
 
-      {/* App Footer */ }
   <footer className="app-footer">
     <p className="footer-text">
       Double-check variables inside the <code>document-canvas</code> template before exporting.
     </p>
   </footer>
-    </div >
+    </div>
   )
 }
 
