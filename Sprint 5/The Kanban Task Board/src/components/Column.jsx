@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-function Column({ title, tasks, newTaskText, setNewTaskText, onAddTask, onDeleteTask, onMoveTask }) {
+function Column({ title, tasks, newTaskText, setNewTaskText, newTaskPriority, setNewTaskPriority, onAddTask, onDeleteTask, onMoveTask, onSaveEdit }) {
   return (
     <div className="column">
       <div className="column-header">
@@ -16,6 +16,7 @@ function Column({ title, tasks, newTaskText, setNewTaskText, onAddTask, onDelete
             task={task} 
             onDeleteTask={onDeleteTask}
             onMoveTask={onMoveTask}
+            onSaveEdit={onSaveEdit}
           />
         ))}
       </div>
@@ -29,6 +30,15 @@ function Column({ title, tasks, newTaskText, setNewTaskText, onAddTask, onDelete
             onChange={(e) => setNewTaskText(e.target.value)}
             className="task-input"
           />
+          <select 
+            value={newTaskPriority}
+            onChange={(e) => setNewTaskPriority(e.target.value)}
+            className="task-priority-select"
+          >
+            <option value="High">High Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="Low">Low Priority</option>
+          </select>
           <button type="submit" className="add-button">Add</button>
         </form>
       )}
