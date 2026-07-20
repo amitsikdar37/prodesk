@@ -1,9 +1,14 @@
 import React from 'react';
+import { useDroppable } from '@dnd-kit/core';
+
 import Card from './Card';
 
 function Column({ title, tasks, newTaskText, setNewTaskText, newTaskPriority, setNewTaskPriority, onAddTask, onDeleteTask, onMoveTask, onSaveEdit }) {
+
+  const { setNodeRef } = useDroppable({ id: title });
+
   return (
-    <div className="column">
+    <div className="column" ref={setNodeRef}>
       <div className="column-header">
         <h2>{title}</h2>
         <span className="task-count">{tasks.length}</span>
@@ -42,7 +47,7 @@ function Column({ title, tasks, newTaskText, setNewTaskText, newTaskPriority, se
           <button type="submit" className="add-button">Add</button>
         </form>
       )}
-    </div>
+    </div> 
   );
 }
 

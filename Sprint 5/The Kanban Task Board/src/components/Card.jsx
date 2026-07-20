@@ -1,10 +1,16 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDraggable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 
-function Card({ task, onDeleteTask, onMoveTask, onSaveEdit }) {
+function Card({ task, onDeleteTask, onMoveTask, onSaveEdit, isOverlay }) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ id: task.id, text: task.text });
+
+  const { setNodeRef, attributes, listeners, transform, isDragging } = useDraggable({ 
+    id: isOverlay ? `overlay-${task.id}` : task.id,
+    disabled: isOverlay 
+  });
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -19,8 +25,21 @@ function Card({ task, onDeleteTask, onMoveTask, onSaveEdit }) {
     setEditedTask({ id: task.id, text: task.text });
   };
 
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    opacity: isDragging && !isOverlay ? 0.3 : 1,
+    boxShadow: isOverlay ? '0 10px 15px -3px rgb(0 0 0 / 0.2)' : undefined,
+    zIndex: isOverlay ? 999 : undefined,
+  };
+
   return (
-    <div className={`card priority-${task.priority || 'Medium'}`}>
+    <div 
+      className={`card priority-${task.priority || 'Medium'}`}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <div className="card-content">
         {isEditing ? (
           <div className="edit-mode">

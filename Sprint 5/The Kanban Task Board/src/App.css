@@ -25,6 +25,22 @@
   overflow-y: hidden;
 }
 
+.board-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.search-container {
+  max-width: 400px;
+}
+
+.search-input {
+  background-color: white;
+  padding: 0.75rem 1rem;
+}
+
 /* Board Styles */
 .board {
   display: flex;
