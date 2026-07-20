@@ -62,26 +62,6 @@ function Card({ task, onDeleteTask, onMoveTask, onSaveEdit, isOverlay }) {
         )}
       </div>
       <div className="card-actions">
-        <div className="move-actions">
-          {task.status !== 'To Do' && (
-            <button
-              className="action-btn"
-              onClick={() => onMoveTask(task.id, task.status === 'Done' ? 'In Progress' : 'To Do')}
-              title="Move left"
-            >
-              ← Move
-            </button>
-          )}
-          {task.status !== 'Done' && (
-            <button
-              className="action-btn"
-              onClick={() => onMoveTask(task.id, task.status === 'To Do' ? 'In Progress' : 'Done')}
-              title="Move right"
-            >
-              Move →
-            </button>
-          )}
-        </div>
         <button
           className="delete-btn"
           onClick={() => onDeleteTask(task.id)}
