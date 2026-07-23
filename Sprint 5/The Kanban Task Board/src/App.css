@@ -130,10 +130,14 @@
 
 .card-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end; /* Default for desktop: just delete button on right */
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
+}
+
+.mobile-move-actions {
+  display: none; /* Hidden by default on desktop */
 }
 
 .move-actions {
@@ -347,5 +351,14 @@
   
   .column-content {
     overflow-y: visible; /* Let columns grow to their content on mobile */
+  }
+
+  .mobile-move-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .card-actions {
+    justify-content: space-between; /* Space between move buttons and delete button */
   }
 }
