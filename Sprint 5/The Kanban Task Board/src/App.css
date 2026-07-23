@@ -321,3 +321,31 @@
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
+
+/* Responsive Mobile Layout */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .board-container {
+    height: auto;
+  }
+
+  .board {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .column {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: none;
+  }
+  
+  .column-content {
+    overflow-y: visible; /* Let columns grow to their content on mobile */
+  }
+}
