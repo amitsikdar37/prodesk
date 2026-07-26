@@ -107,3 +107,40 @@
   color: var(--color-text-muted);
   text-decoration: line-through;
 }
+
+@media (max-width: 480px) {
+  .product-card__body {
+    padding: var(--space-3);
+    gap: var(--space-1);
+  }
+
+  .product-card__category {
+    font-size: 10px;
+  }
+
+  .product-card__title {
+    font-size: var(--text-xs);
+    -webkit-line-clamp: 2;
+  }
+
+  .product-card__stars {
+    font-size: 11px;
+  }
+
+  .product-card__rating-value {
+    display: none;
+  }
+
+  .product-card__price {
+    font-size: var(--text-base);
+  }
+
+  .product-card__original-price {
+    font-size: var(--text-xs);
+  }
+
+  .product-card__discount-badge {
+    font-size: 10px;
+    padding: 1px var(--space-1);
+  }
+}

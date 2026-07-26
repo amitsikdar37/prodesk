@@ -2,6 +2,8 @@
 
 A fully featured, client-side e-commerce SPA built with **React**, **React Router DOM v6**, and the **Context API**. Consumes the [DummyJSON](https://dummyjson.com/products) REST API for live product data.
 
+**🌐 Live Demo:** [https://prodesk-2q6u-teal.vercel.app/](https://prodesk-2q6u-teal.vercel.app/)
+
 ---
 
 ## Tech Stack

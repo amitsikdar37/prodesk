@@ -239,50 +239,123 @@
   .hero {
     flex-direction: column;
     min-height: auto;
-    padding: var(--space-10) var(--space-4);
+    padding: var(--space-8) var(--space-4) var(--space-6);
     text-align: center;
+    gap: var(--space-8);
   }
 
   .hero__content {
     max-width: 100%;
+    order: 1;
+  }
+
+  .hero__eyebrow {
+    font-size: 10px;
   }
 
   .hero__subtitle {
     max-width: 100%;
+    font-size: var(--text-base);
   }
 
   .hero__actions {
     justify-content: center;
+    gap: var(--space-3);
+  }
+
+  .hero__actions .btn {
+    flex: 1;
+    max-width: 160px;
   }
 
   .hero__visual {
-    min-height: 300px;
+    order: 2;
+    min-height: 240px;
     width: 100%;
   }
 
+  .hero__blob {
+    width: 280px;
+    height: 280px;
+  }
+
   .hero__img-card {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
   .hero__img-card--tall {
-    width: 140px;
-    height: 260px;
+    width: 115px;
+    height: 220px;
+  }
+
+  .categories-section {
+    padding: var(--space-12) var(--space-4);
   }
 
   .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  .category-card {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  .category-card__icon {
+    font-size: 1.5rem;
+  }
+
+  .category-card__name {
+    font-size: var(--text-xs);
+  }
+
+  .features-section {
+    padding: var(--space-10) var(--space-4);
   }
 
   .features-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .feature-item {
+    padding: var(--space-4);
+  }
+
+  .cta-section {
+    padding: 0 var(--space-4) var(--space-12);
   }
 
   .cta-banner {
     padding: var(--space-10) var(--space-6);
+    border-radius: var(--radius-xl);
   }
 
   .cta-banner__title {
     font-size: var(--text-2xl);
+  }
+
+  .cta-banner__subtitle {
+    font-size: var(--text-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__visual {
+    display: none;
+  }
+
+  .hero {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-6);
   }
 }
