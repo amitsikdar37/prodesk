@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { formatINR } from '../utils/currency';
 import './ProductCard.css';
 
 const StarRating = ({ rating }) => {
@@ -51,10 +52,10 @@ export default function ProductCard({ product }) {
         <h3 className="product-card__title">{product.title}</h3>
         <StarRating rating={product.rating} />
         <div className="product-card__price-row">
-          <span className="product-card__price">${discountedPrice}</span>
+          <span className="product-card__price">{formatINR(discountedPrice)}</span>
           {product.discountPercentage > 5 && (
             <span className="product-card__original-price">
-              ${product.price.toFixed(2)}
+              {formatINR(product.price)}
             </span>
           )}
         </div>

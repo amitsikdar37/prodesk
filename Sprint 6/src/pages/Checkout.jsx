@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { formatINR, toINR } from '../utils/currency';
 import './Checkout.css';
 
 export default function Checkout() {
   const { cart, totalPrice, clearCart } = useCart();
   const { user } = useAuth();
 
-  const shipping = totalPrice > 50 ? 0 : 4.99;
-  const tax = totalPrice * 0.08;
-  const grandTotal = totalPrice + shipping + tax;
+  const subtotalINR = toINR(totalPrice);
+  const shipping = subtotalINR > 1499 || subtotalINR === 0 ? 0 : 99;
+  const tax = Math.round(subtotalINR * 0.18); // 18% GST
+  const grandTotal = subtotalINR + shipping + tax;
 
   const handlePlaceOrder = () => {
     clearCart();
@@ -117,7 +119,7 @@ export default function Checkout() {
                         {item.title.length > 28 ? item.title.slice(0, 28) + '…' : item.title}
                       </p>
                       <p className="checkout-order-item__price">
-                        ${(unitPrice * item.quantity).toFixed(2)}
+                        {formatINR(unitPrice * item.quantity)}
                       </p>
                     </div>
                   );
@@ -127,22 +129,22 @@ export default function Checkout() {
               <div className="checkout-order-totals">
                 <div className="checkout-order-row">
                   <span>Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{subtotalINR.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="checkout-order-row">
                   <span>Shipping</span>
                   <span className={shipping === 0 ? 'text-success' : ''}>
-                    {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'Free' : `₹${shipping}`}
                   </span>
                 </div>
                 <div className="checkout-order-row">
-                  <span>Tax (8%)</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>GST (18%)</span>
+                  <span>₹{tax.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="checkout-order-divider" />
                 <div className="checkout-order-row checkout-order-row--total">
                   <span>Total</span>
-                  <span>${grandTotal.toFixed(2)}</span>
+                  <span>₹{grandTotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 

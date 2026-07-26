@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { formatINR } from '../utils/currency';
 import './ProductDetail.css';
 
 const StarRating = ({ rating }) => (
@@ -112,9 +113,9 @@ export default function ProductDetail() {
             <StarRating rating={product.rating} />
 
             <div className="pd__price-block">
-              <span className="pd__price">${discountedPrice}</span>
+              <span className="pd__price">{formatINR(discountedPrice)}</span>
               {product.discountPercentage > 5 && (
-                <span className="pd__original-price">${product.price.toFixed(2)}</span>
+                <span className="pd__original-price">{formatINR(product.price)}</span>
               )}
             </div>
 

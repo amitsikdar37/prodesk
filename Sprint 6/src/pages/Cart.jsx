@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { formatINR, toINR } from '../utils/currency';
 import './Cart.css';
 
 export default function Cart() {
   const { cart, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
+  const subtotalINR = toINR(totalPrice);
+  const shippingINR = subtotalINR > 1499 || subtotalINR === 0 ? 0 : 99;
+  const grandTotalINR = subtotalINR + shippingINR;
 
   if (cart.length === 0) {
     return (
@@ -47,7 +51,7 @@ export default function Cart() {
                     <Link to={`/product/${item.id}`} className="cart-item__title">
                       {item.title}
                     </Link>
-                    <span className="cart-item__price">${discountedPrice}</span>
+                    <span className="cart-item__price">{formatINR(discountedPrice)}</span>
                   </div>
                   <div className="cart-item__controls">
                     <div className="cart-item__qty">
@@ -68,7 +72,7 @@ export default function Cart() {
                       </button>
                     </div>
                     <span className="cart-item__subtotal">
-                      ${(discountedPrice * item.quantity).toFixed(2)}
+                      {formatINR(discountedPrice * item.quantity)}
                     </span>
                     <button
                       className="cart-item__remove"
@@ -98,7 +102,7 @@ export default function Cart() {
                     <span className="cart-summary__item-name">
                       {item.title.length > 24 ? item.title.slice(0, 24) + '…' : item.title} × {item.quantity}
                     </span>
-                    <span>${(unitPrice * item.quantity).toFixed(2)}</span>
+                    <span>{formatINR(unitPrice * item.quantity)}</span>
                   </div>
                 );
               })}
@@ -108,12 +112,12 @@ export default function Cart() {
 
             <div className="cart-summary__row cart-summary__row--subtotal">
               <span>Subtotal</span>
-              <span>${totalPrice.toFixed(2)}</span>
+              <span>₹{subtotalINR.toLocaleString('en-IN')}</span>
             </div>
             <div className="cart-summary__row">
-              <span>Shipping</span>
+              <span>Shipping (Free over ₹1,499)</span>
               <span className="cart-summary__free">
-                {totalPrice > 50 ? 'Free' : '$4.99'}
+                {shippingINR === 0 ? 'Free' : '₹99'}
               </span>
             </div>
 
@@ -121,7 +125,7 @@ export default function Cart() {
 
             <div className="cart-summary__row cart-summary__row--total">
               <span>Total</span>
-              <span>${(totalPrice + (totalPrice > 50 ? 0 : 4.99)).toFixed(2)}</span>
+              <span>₹{grandTotalINR.toLocaleString('en-IN')}</span>
             </div>
 
             <Link to="/checkout" className="btn btn-primary btn-lg cart-summary__checkout">
