@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ClientDetailsStep from './ClientDetailsStep';
 import CaseDetailsStep from './CaseDetailsStep';
+import { saveClient } from '../utils/storage';
 
 export default function MultiStepForm() {
   const [step, setStep] = useState(1);
@@ -21,6 +22,7 @@ export default function MultiStepForm() {
     setError(null);
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
+      saveClient(formData);
       console.log("[Analytics] User interacted with Client Intake & Case Detail Form");
       setSubmitted(true);
     } catch (err) {
