@@ -147,6 +147,80 @@ body {
   cursor: pointer;
 }
 
+/* Phase 2 Form Fields CSS */
+.step-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-3);
+  color: var(--color-text-primary);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-1);
+  color: var(--color-text-primary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.form-group input.input-error,
+.form-group select.input-error,
+.form-group textarea.input-error {
+  border-color: var(--color-error);
+  background-color: #fdf3f4;
+}
+
+.error-text {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-1);
+}
+
+.review-section {
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-2);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+
+.review-section h3 {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-2);
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-1);
+}
+
+.review-section p {
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-1);
+}
+
 /* Media query for larger screens, mobile-first approach */
 @media (min-width: 768px) {
   .app-layout {
