@@ -1,76 +1,47 @@
 import React, { useState } from 'react'
-
-// ── Validators ────────────────────────────────────────────────────────────────
-// Kept as plain functions at module scope — no magic, easy to unit-test later.
-
-function validateEmail(val) {
-  if (val.trim() === '') return 'Email is required.'
-  if (!val.includes('@')) return 'Email must contain an @ symbol.'
-  // Basic structural check: something@something.something
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(val)) return 'Enter a valid email address.'
-  return ''
-}
-
-function validatePassword(val) {
-  if (val === '') return 'Password is required.'
-  if (val.length < 8) return `Password must be at least 8 characters (${val.length}/8).`
-  return ''
-}
-
-function validateConfirm(pw, confirm) {
-  if (confirm === '') return 'Please confirm your password.'
-  if (confirm !== pw) return 'Passwords do not match.'
-  return ''
-}
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { accountSchema } from '../schema.js'
 
 /**
- * StepAccount — Step 2 with full Phase 2 validation layer.
- * Uses local useState ONLY for UI-specific concerns (show/hide password toggles).
- * All actual data still lives in WizardShell via props.
+ * StepAccount — Phase 3.
+ * useForm + zodResolver handles all field validation including the cross-field
+ * confirm-password check (defined in the schema, not here).
+ * Local useState is kept ONLY for show/hide toggles — purely cosmetic UI state.
  */
-export default function StepAccount({ formData, updateField, onNext, onBack }) {
-  const { email, password, confirmPassword } = formData
+export default function StepAccount({ formData, onStepComplete, onBack }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    resolver: zodResolver(accountSchema),
+    defaultValues: {
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    },
+    mode: 'onChange',
+  })
 
-  // UI-only local state — purely cosmetic, not part of the data payload.
+  // UI-only: cosmetic show/hide toggles. Not payload data — YAGNI says keep local.
   const [showPw, setShowPw] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
 
-  // Track whether a field has been touched so we don't yell at blank fields on mount.
-  const [touched, setTouched] = useState({
-    email: false,
-    password: false,
-    confirmPassword: false,
-  })
+  // watch gives us the live password value to feed into the strength meter.
+  const livePw = watch('password') || ''
 
-  function markTouched(field) {
-    setTouched((prev) => ({ ...prev, [field]: true }))
+  function onValid(data) {
+    onStepComplete(data)
   }
 
-  // Compute errors — always derived, never stale.
-  const emailErr = validateEmail(email)
-  const passwordErr = validatePassword(password)
-  const confirmErr = validateConfirm(password, confirmPassword)
-
-  const canProceed = emailErr === '' && passwordErr === '' && confirmErr === ''
-
-  function handleEmailChange(e) {
-    updateField('email', e.target.value)
-    markTouched('email')
-  }
-
-  function handlePasswordChange(e) {
-    updateField('password', e.target.value)
-    markTouched('password')
-  }
-
-  function handleConfirmChange(e) {
-    updateField('confirmPassword', e.target.value)
-    markTouched('confirmPassword')
-  }
+  // Split register result so we can override `type` independently.
+  const passwordReg = register('password')
+  const confirmReg = register('confirmPassword')
 
   return (
-    <div className="step">
+    <form onSubmit={handleSubmit(onValid)} className="step" noValidate>
       <h2 className="step-title">Account Details</h2>
       <p className="step-desc">Set up your login credentials.</p>
 
@@ -82,18 +53,16 @@ export default function StepAccount({ formData, updateField, onNext, onBack }) {
         <input
           id="email"
           type="email"
-          className={`field-input ${touched.email && emailErr ? 'field-input--error' : ''}`}
           placeholder="jane@example.com"
-          value={email}
           autoComplete="email"
-          onChange={handleEmailChange}
-          onBlur={() => markTouched('email')}
-          aria-describedby={touched.email && emailErr ? 'email-err' : undefined}
-          aria-invalid={touched.email && emailErr ? 'true' : 'false'}
+          className={`field-input ${errors.email ? 'field-input--error' : ''}`}
+          aria-describedby={errors.email ? 'email-err' : undefined}
+          aria-invalid={errors.email ? 'true' : 'false'}
+          {...register('email')}
         />
-        {touched.email && emailErr && (
+        {errors.email && (
           <span id="email-err" className="field-error" role="alert">
-            {emailErr}
+            {errors.email.message}
           </span>
         )}
       </div>
@@ -106,32 +75,35 @@ export default function StepAccount({ formData, updateField, onNext, onBack }) {
         <div className="input-wrap">
           <input
             id="password"
-            type={showPw ? 'text' : 'password'}
-            className={`field-input field-input--icon ${touched.password && passwordErr ? 'field-input--error' : ''}`}
             placeholder="Min. 8 characters"
-            value={password}
             autoComplete="new-password"
-            onChange={handlePasswordChange}
-            onBlur={() => markTouched('password')}
-            aria-describedby={touched.password && passwordErr ? 'pw-err' : undefined}
-            aria-invalid={touched.password && passwordErr ? 'true' : 'false'}
+            className={`field-input field-input--icon ${errors.password ? 'field-input--error' : ''}`}
+            aria-describedby={errors.password ? 'pw-err' : undefined}
+            aria-invalid={errors.password ? 'true' : 'false'}
+            type={showPw ? 'text' : 'password'}
+            name={passwordReg.name}
+            ref={passwordReg.ref}
+            onChange={passwordReg.onChange}
+            onBlur={passwordReg.onBlur}
           />
           <button
             type="button"
             className="toggle-vis"
             onClick={() => setShowPw((v) => !v)}
             aria-label={showPw ? 'Hide password' : 'Show password'}
-            tabIndex={0}
           >
             {showPw ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
-        {touched.password && passwordErr && (
+        {errors.password && (
           <span id="pw-err" className="field-error" role="alert">
-            {passwordErr}
+            {errors.password.message}
           </span>
         )}
       </div>
+
+      {/* Password strength ───────────────────────────────────────────────────── */}
+      {livePw.length > 0 && <PasswordStrength password={livePw} />}
 
       {/* Confirm Password ───────────────────────────────────────────────────── */}
       <div className="field-group">
@@ -141,57 +113,51 @@ export default function StepAccount({ formData, updateField, onNext, onBack }) {
         <div className="input-wrap">
           <input
             id="confirmPassword"
-            type={showConfirm ? 'text' : 'password'}
-            className={`field-input field-input--icon ${touched.confirmPassword && confirmErr ? 'field-input--error' : ''}`}
             placeholder="Repeat your password"
-            value={confirmPassword}
             autoComplete="new-password"
-            onChange={handleConfirmChange}
-            onBlur={() => markTouched('confirmPassword')}
-            aria-describedby={touched.confirmPassword && confirmErr ? 'confirm-err' : undefined}
-            aria-invalid={touched.confirmPassword && confirmErr ? 'true' : 'false'}
+            className={`field-input field-input--icon ${errors.confirmPassword ? 'field-input--error' : ''}`}
+            aria-describedby={errors.confirmPassword ? 'confirm-err' : undefined}
+            aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+            type={showConfirm ? 'text' : 'password'}
+            name={confirmReg.name}
+            ref={confirmReg.ref}
+            onChange={confirmReg.onChange}
+            onBlur={confirmReg.onBlur}
           />
           <button
             type="button"
             className="toggle-vis"
             onClick={() => setShowConfirm((v) => !v)}
             aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
-            tabIndex={0}
           >
             {showConfirm ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
-        {touched.confirmPassword && confirmErr && (
+        {errors.confirmPassword && (
           <span id="confirm-err" className="field-error" role="alert">
-            {confirmErr}
+            {errors.confirmPassword.message}
           </span>
         )}
       </div>
 
-      {/* Password strength hint ─────────────────────────────────────────────── */}
-      {password.length > 0 && (
-        <PasswordStrength password={password} />
-      )}
-
       <div className="step-actions step-actions--two">
-        <button className="btn btn-ghost" onClick={onBack}>
+        <button type="button" className="btn btn-ghost" onClick={onBack}>
           ← Back
         </button>
         <button
+          type="submit"
           className="btn btn-primary"
-          onClick={onNext}
-          disabled={!canProceed}
-          aria-disabled={!canProceed}
+          disabled={!isValid}
+          aria-disabled={!isValid}
         >
           Next →
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
-// Inline SVG icons — no icon library dependency needed.
 
 function EyeIcon() {
   return (
@@ -212,10 +178,6 @@ function EyeOffIcon() {
   )
 }
 
-/**
- * PasswordStrength — visual indicator, 3 tiers: Weak / Fair / Strong.
- * Rules: < 8 = Weak, 8-11 = Fair, 12+ with mixed chars = Strong.
- */
 function PasswordStrength({ password }) {
   let level = 0
   let label = 'Weak'
