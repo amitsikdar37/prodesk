@@ -1,10 +1,5 @@
 import React from 'react'
 
-/**
- * ErrorBoundary — class component (React requires class for error boundaries).
- * Catches any render/lifecycle crash inside the wizard and shows a
- * graceful fallback instead of a blank page.
- */
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
@@ -16,7 +11,6 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(err, info) {
-    // In production you'd ship this to Sentry / Datadog.
     console.error('[ErrorBoundary] Caught:', err, info)
   }
 

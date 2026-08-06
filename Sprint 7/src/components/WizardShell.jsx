@@ -7,11 +7,6 @@ import SuccessScreen from './SuccessScreen.jsx'
 
 const TOTAL_STEPS = 3
 
-/**
- * Simulated API call — 1.5s latency.
- * Rejects ~15% of the time to demonstrate the network failure fallback UI.
- * Phase 4 would replace this with a real fetch/axios call.
- */
 function fakeApiSubmit(payload) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -24,19 +19,12 @@ function fakeApiSubmit(payload) {
   })
 }
 
-/**
- * WizardShell — Phase 3.
- * onStepComplete(stepData) replaces the old per-field updateField.
- * Each step submits its validated zod payload here; we merge it into formData.
- * This means WizardShell always holds a union of all clean, validated data.
- */
 export default function WizardShell() {
   const [step, setStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
-  // Unified payload — source of truth, seeded as defaultValues in each step's useForm.
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -46,8 +34,6 @@ export default function WizardShell() {
     confirmPassword: '',
   })
 
-  // Called by each step on a successful RHF handleSubmit.
-  // Merges the step's validated data and advances the wizard.
   function onStepComplete(stepData) {
     setFormData((prev) => ({ ...prev, ...stepData }))
     if (step < TOTAL_STEPS) {
@@ -58,7 +44,7 @@ export default function WizardShell() {
   function goBack() {
     if (step > 1) {
       setStep((s) => s - 1)
-      setSubmitError('') // clear any lingering error if user goes back from review
+      setSubmitError('')
     }
   }
 

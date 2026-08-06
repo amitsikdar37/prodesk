@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-// ── Step 1: Personal Info ─────────────────────────────────────────────────────
 export const personalSchema = z.object({
   firstName: z
     .string()
@@ -40,9 +39,6 @@ export const personalSchema = z.object({
     }),
 })
 
-// ── Step 2: Account Details ───────────────────────────────────────────────────
-// Base object defined separately so fullSchema can reference its .shape directly.
-// ZodEffects (from .refine) does not expose .shape — this avoids that pitfall.
 const accountBase = z.object({
   email: z
     .string()
@@ -81,8 +77,6 @@ export const accountSchema = accountBase.refine(
   }
 )
 
-// ── Full payload schema (used for final validation before API submit) ─────────
-// confirmPassword is a UI-only field — it does not belong in the API payload.
 export const fullSchema = z.object({
   firstName: personalSchema.shape.firstName,
   lastName: personalSchema.shape.lastName,
@@ -90,4 +84,3 @@ export const fullSchema = z.object({
   email: accountBase.shape.email,
   password: accountBase.shape.password,
 })
-

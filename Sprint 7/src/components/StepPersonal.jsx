@@ -3,12 +3,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { personalSchema } from '../schema.js'
 
-/**
- * StepPersonal — Phase 3.
- * react-hook-form + zodResolver replace all manual useState validators.
- * defaultValues seeded from parent formData so Back navigation pre-fills.
- * RHF tracks field state internally — only the validated payload leaves this component.
- */
 export default function StepPersonal({ formData, onStepComplete }) {
   const {
     register,
@@ -21,16 +15,14 @@ export default function StepPersonal({ formData, onStepComplete }) {
       lastName: formData.lastName,
       dob: formData.dob,
     },
-    mode: 'onChange', // validate on every keystroke — matches Phase 2 UX behaviour
+    mode: 'onChange',
   })
 
-  // Build max date attr: yesterday's ISO date string.
   const today = new Date()
   today.setDate(today.getDate() - 1)
   const maxDate = today.toISOString().split('T')[0]
 
   function onValid(data) {
-    // Pass validated, zod-coerced data up to WizardShell.
     onStepComplete(data)
   }
 
@@ -39,7 +31,6 @@ export default function StepPersonal({ formData, onStepComplete }) {
       <h2 className="step-title">Personal Information</h2>
       <p className="step-desc">Tell us a bit about yourself.</p>
 
-      {/* First Name ─────────────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="firstName" className="field-label">
           First Name <span className="required" aria-hidden="true">*</span>
@@ -61,7 +52,6 @@ export default function StepPersonal({ formData, onStepComplete }) {
         )}
       </div>
 
-      {/* Last Name ──────────────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="lastName" className="field-label">
           Last Name <span className="required" aria-hidden="true">*</span>
@@ -83,7 +73,6 @@ export default function StepPersonal({ formData, onStepComplete }) {
         )}
       </div>
 
-      {/* Date of Birth ──────────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="dob" className="field-label">
           Date of Birth <span className="required" aria-hidden="true">*</span>

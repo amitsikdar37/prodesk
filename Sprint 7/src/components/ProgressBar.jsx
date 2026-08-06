@@ -1,9 +1,5 @@
 import React from 'react'
 
-/**
- * ProgressBar — shows "Step X of Y" + a filled bar.
- * Receives current step and total as plain numbers; no internal state.
- */
 export default function ProgressBar({ current, total }) {
   const pct = Math.round((current / total) * 100)
 

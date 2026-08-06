@@ -1,9 +1,5 @@
 import React from 'react'
 
-/**
- * SuccessScreen — shown after the user submits.
- * Displays confirmation and a summary of the name used to personalise it.
- */
 export default function SuccessScreen({ formData }) {
   const name = formData.firstName || 'there'
 

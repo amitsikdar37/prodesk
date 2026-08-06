@@ -1,14 +1,8 @@
 import React from 'react'
 
-/**
- * StepReview — Phase 3.
- * Receives isSubmitting + submitError from WizardShell.
- * Shows a loading spinner on Submit, and an inline error banner on failure.
- */
 export default function StepReview({ formData, onBack, onSubmit, isSubmitting, submitError }) {
   const { firstName, lastName, dob, email, password } = formData
 
-  // Guard: empty payload should not be submittable — just a safety net.
   if (!firstName && !email) {
     return (
       <div className="step">
@@ -60,7 +54,6 @@ export default function StepReview({ formData, onBack, onSubmit, isSubmitting, s
         ))}
       </dl>
 
-      {/* Network error banner — only shown when submitError is non-empty */}
       {submitError && (
         <div className="submit-error" role="alert" aria-live="assertive">
           <span className="submit-error-icon" aria-hidden="true">⚠</span>

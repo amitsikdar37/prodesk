@@ -3,12 +3,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { accountSchema } from '../schema.js'
 
-/**
- * StepAccount — Phase 3.
- * useForm + zodResolver handles all field validation including the cross-field
- * confirm-password check (defined in the schema, not here).
- * Local useState is kept ONLY for show/hide toggles — purely cosmetic UI state.
- */
 export default function StepAccount({ formData, onStepComplete, onBack }) {
   const {
     register,
@@ -25,18 +19,15 @@ export default function StepAccount({ formData, onStepComplete, onBack }) {
     mode: 'onChange',
   })
 
-  // UI-only: cosmetic show/hide toggles. Not payload data — YAGNI says keep local.
   const [showPw, setShowPw] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
 
-  // watch gives us the live password value to feed into the strength meter.
   const livePw = watch('password') || ''
 
   function onValid(data) {
     onStepComplete(data)
   }
 
-  // Split register result so we can override `type` independently.
   const passwordReg = register('password')
   const confirmReg = register('confirmPassword')
 
@@ -45,7 +36,6 @@ export default function StepAccount({ formData, onStepComplete, onBack }) {
       <h2 className="step-title">Account Details</h2>
       <p className="step-desc">Set up your login credentials.</p>
 
-      {/* Email ──────────────────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="email" className="field-label">
           Email Address <span className="required" aria-hidden="true">*</span>
@@ -67,7 +57,6 @@ export default function StepAccount({ formData, onStepComplete, onBack }) {
         )}
       </div>
 
-      {/* Password ───────────────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="password" className="field-label">
           Password <span className="required" aria-hidden="true">*</span>
@@ -102,10 +91,8 @@ export default function StepAccount({ formData, onStepComplete, onBack }) {
         )}
       </div>
 
-      {/* Password strength ───────────────────────────────────────────────────── */}
       {livePw.length > 0 && <PasswordStrength password={livePw} />}
 
-      {/* Confirm Password ───────────────────────────────────────────────────── */}
       <div className="field-group">
         <label htmlFor="confirmPassword" className="field-label">
           Confirm Password <span className="required" aria-hidden="true">*</span>
@@ -156,8 +143,6 @@ export default function StepAccount({ formData, onStepComplete, onBack }) {
     </form>
   )
 }
-
-// ── Sub-components ────────────────────────────────────────────────────────────
 
 function EyeIcon() {
   return (
