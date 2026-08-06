@@ -272,6 +272,99 @@ body {
   cursor: pointer;
 }
 
+/* Error state ─────────────────────────────────────────────────────────────── */
+.field-input--error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.18) !important;
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: var(--danger);
+  animation: err-in 0.18s ease;
+}
+
+@keyframes err-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Input wrapper — positions the show/hide toggle inside the input ─────────── */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field-input--icon {
+  /* leave room for the icon button on the right */
+  padding-right: 2.75rem;
+}
+
+/* Show / Hide password toggle ───────────────────────────────────────────────── */
+.toggle-vis {
+  position: absolute;
+  right: 0.625rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition);
+  line-height: 0;
+}
+
+.toggle-vis:hover {
+  color: var(--text-sub);
+}
+
+.toggle-vis:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Password strength meter ─────────────────────────────────────────────────── */
+.strength-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.strength-bar {
+  height: 4px;
+  flex: 1;
+  background: var(--surface-2);
+  border-radius: 999px;
+  transition: background var(--transition);
+}
+
+.strength-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  min-width: 42px;
+  text-align: right;
+  transition: color var(--transition);
+}
+
+.strength--weak   { background: var(--danger);  color: var(--danger); }
+.strength--fair   { background: #f59e0b;         color: #f59e0b; }
+.strength--good   { background: #3b82f6;         color: #3b82f6; }
+.strength--strong { background: var(--success);  color: var(--success); }
+
 /* ============================================================
    STEP ACTIONS (nav buttons row)
    ============================================================ */
