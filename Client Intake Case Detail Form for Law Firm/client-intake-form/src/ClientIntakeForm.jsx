@@ -5,7 +5,6 @@ function sanitizeInput(inputStr) {
   if (!inputStr) {
     return '';
   }
-  // Basic XSS sanitization as per requirement: Sanitize all text inputs against XSS injection before storing them in state.
   let cleanStr = inputStr.replace(/</g, '&lt;');
   cleanStr = cleanStr.replace(/>/g, '&gt;');
   return cleanStr;
@@ -24,6 +23,9 @@ export default function ClientIntakeForm() {
   });
   
   const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [networkErrorMsg, setNetworkErrorMsg] = useState('');
 
   const validateStep = (step) => {
     let newErrors = {};
@@ -86,7 +88,7 @@ export default function ClientIntakeForm() {
   const handleNext = () => {
     const isStepValid = validateStep(currentStep);
     if (!isStepValid) {
-      return; // Early return on invalid validation
+      return; 
     }
     
     console.log('[Analytics] User progressed to step', currentStep + 1);
@@ -119,12 +121,53 @@ export default function ClientIntakeForm() {
     }
   };
 
-  const handleSubmit = () => {
-    console.log('[Analytics] User submitted Client Intake & Case Detail Form');
-    // Phase 3 will handle actual submission & network states
+  const handleSubmit = async () => {
+    console.log('[Analytics] User initiated submission of Client Intake Form');
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setNetworkErrorMsg('');
+
+    try {
+      // Simulate a slow 3G connection and occasionally drop packets for resiliency testing
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // 15% chance to simulate a network drop edge case
+          if (Math.random() < 0.15) {
+            reject(new Error('Network connectivity lost.'));
+          } else {
+            resolve();
+          }
+        }, 2000); // 2 second fake delay
+      });
+
+      console.log('[Analytics] Submission successful');
+      setSubmitStatus('success');
+    } catch (error) {
+      console.error('[Analytics] Submission failed:', error);
+      setSubmitStatus('error');
+      setNetworkErrorMsg('Failed to securely transmit data. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderStepContent = () => {
+    if (submitStatus === 'success') {
+      return (
+        <div className="step-content success-state">
+          <h2>Submission Successful</h2>
+          <p>The client intake form has been securely transmitted and recorded.</p>
+          <button 
+            className="btn btn-primary" 
+            onClick={() => window.location.reload()}
+            style={{ marginTop: '16px' }}
+          >
+            Start New Form
+          </button>
+        </div>
+      );
+    }
+
     if (currentStep === 1) {
       return (
         <div className="step-content">
@@ -139,6 +182,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange} 
               aria-label="First Name"
               className={formErrors.firstName ? 'input-error' : ''}
+              disabled={isSubmitting}
             />
             {formErrors.firstName && <span className="error-text">{formErrors.firstName}</span>}
           </div>
@@ -152,6 +196,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange} 
               aria-label="Last Name"
               className={formErrors.lastName ? 'input-error' : ''}
+              disabled={isSubmitting}
             />
             {formErrors.lastName && <span className="error-text">{formErrors.lastName}</span>}
           </div>
@@ -165,6 +210,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange} 
               aria-label="Email"
               className={formErrors.email ? 'input-error' : ''}
+              disabled={isSubmitting}
             />
             {formErrors.email && <span className="error-text">{formErrors.email}</span>}
           </div>
@@ -178,6 +224,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange} 
               aria-label="Phone Number"
               className={formErrors.phone ? 'input-error' : ''}
+              disabled={isSubmitting}
             />
             {formErrors.phone && <span className="error-text">{formErrors.phone}</span>}
           </div>
@@ -198,6 +245,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange}
               aria-label="Case Type"
               className={formErrors.caseType ? 'input-error' : ''}
+              disabled={isSubmitting}
             >
               <option value="">Select a case type</option>
               <option value="Personal Injury">Personal Injury</option>
@@ -217,6 +265,7 @@ export default function ClientIntakeForm() {
               onChange={handleChange}
               aria-label="Incident Date"
               className={formErrors.incidentDate ? 'input-error' : ''}
+              disabled={isSubmitting}
             />
             {formErrors.incidentDate && <span className="error-text">{formErrors.incidentDate}</span>}
           </div>
@@ -230,6 +279,7 @@ export default function ClientIntakeForm() {
               aria-label="Case Description"
               rows="4"
               className={formErrors.description ? 'input-error' : ''}
+              disabled={isSubmitting}
             ></textarea>
             {formErrors.description && <span className="error-text">{formErrors.description}</span>}
           </div>
@@ -257,13 +307,16 @@ export default function ClientIntakeForm() {
       );
     }
 
-    // Fallback early return for unexpected states
     return (
       <p className="empty-state">No form data found for this step.</p>
     );
   };
 
   const renderFooterButtons = () => {
+    if (submitStatus === 'success') {
+      return null;
+    }
+
     let nextButton = null;
 
     if (currentStep < 3) {
@@ -272,6 +325,7 @@ export default function ClientIntakeForm() {
           className="btn btn-primary" 
           onClick={handleNext} 
           aria-label="Go to next step"
+          disabled={isSubmitting}
         >
           Next
         </button>
@@ -279,11 +333,15 @@ export default function ClientIntakeForm() {
     } else if (currentStep === 3) {
       nextButton = (
         <button 
-          className="btn btn-primary" 
+          className="btn btn-primary submit-btn" 
           onClick={handleSubmit} 
           aria-label="Submit Form"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? (
+            <span className="loading-spinner" aria-hidden="true"></span>
+          ) : null}
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
       );
     }
@@ -293,7 +351,7 @@ export default function ClientIntakeForm() {
         <button 
           className="btn btn-secondary" 
           onClick={handlePrevious} 
-          disabled={currentStep === 1}
+          disabled={currentStep === 1 || isSubmitting}
           aria-label="Go to previous step"
         >
           Previous
@@ -307,16 +365,25 @@ export default function ClientIntakeForm() {
     <div className="form-container">
       <header className="form-header">
         <h1>Client Intake & Case Detail</h1>
-        <p className="step-indicator">Step {currentStep} of 3</p>
+        {submitStatus !== 'success' && (
+          <p className="step-indicator">Step {currentStep} of 3</p>
+        )}
       </header>
 
       <div className="form-body">
+        {submitStatus === 'error' && (
+          <div className="network-error-banner" role="alert" aria-live="assertive">
+            <p>{networkErrorMsg}</p>
+          </div>
+        )}
         {renderStepContent()}
       </div>
 
-      <footer className="form-footer">
-        {renderFooterButtons()}
-      </footer>
+      {submitStatus !== 'success' && (
+        <footer className="form-footer">
+          {renderFooterButtons()}
+        </footer>
+      )}
     </div>
   );
 }
