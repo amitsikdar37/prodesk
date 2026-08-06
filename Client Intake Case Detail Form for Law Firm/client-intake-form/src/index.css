@@ -2,11 +2,12 @@
   --color-bg-primary: #f8f9fa;
   --color-bg-surface: #ffffff;
   --color-text-primary: #212529;
-  --color-text-secondary: #6c757d;
-  --color-border: #dee2e6;
-  --color-primary: #343a40;
-  --color-primary-hover: #212529;
+  --color-text-secondary: #495057; /* Darkened for better contrast */
+  --color-border: #ced4da;
+  --color-primary: #212529;
+  --color-primary-hover: #000000;
   --color-error: #dc3545;
+  --color-focus: rgba(33, 37, 41, 0.25);
   
   --spacing-1: 8px;
   --spacing-2: 16px;
@@ -14,7 +15,7 @@
   --spacing-4: 32px;
   --spacing-5: 48px;
 
-  --border-radius: 4px;
+  --border-radius: 6px;
 }
 
 * {
@@ -50,7 +51,12 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   padding: var(--spacing-4);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .form-header {
@@ -68,6 +74,7 @@ body {
 .step-indicator {
   color: var(--color-text-secondary);
   font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .form-body {
@@ -97,10 +104,15 @@ body {
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .btn:disabled {
@@ -115,6 +127,7 @@ body {
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -180,7 +193,7 @@ body {
   border-radius: var(--border-radius);
   background-color: var(--color-bg-surface);
   color: var(--color-text-primary);
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .form-group input:disabled,
@@ -196,6 +209,7 @@ body {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus);
 }
 
 .form-group input.input-error,
@@ -205,10 +219,17 @@ body {
   background-color: #fdf3f4;
 }
 
+.form-group input.input-error:focus,
+.form-group select.input-error:focus,
+.form-group textarea.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
 .error-text {
   color: var(--color-error);
   font-size: 0.875rem;
   margin-top: var(--spacing-1);
+  font-weight: 500;
 }
 
 .review-section {
@@ -232,7 +253,7 @@ body {
   margin-bottom: var(--spacing-1);
 }
 
-/* Phase 3 Failsafes CSS */
+/* Failsafes CSS */
 .network-error-banner {
   background-color: #fdf3f4;
   color: var(--color-error);
@@ -264,8 +285,18 @@ body {
   margin-right: var(--spacing-1);
 }
 
+/* Micro Animations */
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 @media (min-width: 768px) {
