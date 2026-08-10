@@ -1,0 +1,1 @@
+1. why the screen is black. why i am not seeing any movies card on the ui ???

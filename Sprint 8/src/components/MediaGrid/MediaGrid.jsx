@@ -54,9 +54,9 @@ const MediaGrid = forwardRef(function MediaGrid(
             <MediaCard
               key={movie.id}
               title={movie.title}
-              year={movie.year}
-              rating={movie.rating}
-              posterUrl={movie.posterUrl}
+              year={movie.release_date}
+              rating={movie.vote_average}
+              posterUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               isFavorite={movie.isFavorite}
               onToggleFavorite={() => onToggleFavorite?.(movie)}
             />
