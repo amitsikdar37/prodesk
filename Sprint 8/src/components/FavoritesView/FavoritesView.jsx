@@ -51,10 +51,10 @@ export default function FavoritesView({ favorites = [], onToggleFavorite }) {
             <MediaCard
               key={movie.id}
               title={movie.title}
-              year={movie.year}
-              rating={movie.rating}
-              posterUrl={movie.posterUrl}
-              isFavorite={movie.isFavorite}
+              year={movie.release_date}
+              rating={movie.vote_average}
+              posterUrl={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              isFavorite={true}
               onToggleFavorite={() => onToggleFavorite?.(movie)}
             />
           ))}

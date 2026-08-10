@@ -9,25 +9,54 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
   const [moodQuery, setMoodQuery] = useState('');
-
+  const [page, setPage] = useState(1);
+  const [favourites, setFavourites] = useState(() => {
+    const saved = localStorage.getItem('movie-favorites')
+    return saved ? JSON.parse(saved) : [];
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('movie-favorites', JSON.stringify(favourites));
+  }, [favourites])
 
   useEffect(() => {
-    fetchPopularMovies();
-  },[]);
+    const timerId = setTimeout(() => {
+      if (query.trim() === '') {
+        fetchPopularMovies();
+      } else {
+        fetchSearchedMovies(query);
+      }
+    }, 500);
+    return () => clearTimeout(timerId);
+  }, [query, page]);
 
   useEffect(() => {
-    if (query.trim() === '') {
-      fetchPopularMovies();
-    } else {
-      fetchSearchedMovies(query);
+    const observer = new IntersectionObserver((entries) => {
+      const tripwire = entries[0];
+
+      if (tripwire.isIntersecting) {
+        setPage(prevPage => prevPage + 1);
+      }
+    });
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
     }
-  }, [query]);
+    return () => {
+      if (sentinelRef.current) observer.unobserve(sentinelRef.current);
+    };
+  }, [movies]);
+
 
   const fetchPopularMovies = async () => {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`);
+    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&page=${page}`);
     const data = await res.json();
-    setMovies(data.results);
+    if (page === 1) {
+      setMovies(data.results);
+    } else {
+      setMovies(prevMovies => [...prevMovies, ...data.results]);
+    }
   }
 
   const fetchSearchedMovies = async (query) => {
@@ -35,6 +64,7 @@ export default function App() {
     const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
     const data = await res.json();
     setMovies(data.results);
+    setPage(1);
   }
 
 
@@ -42,11 +72,12 @@ export default function App() {
   const sentinelRef = useRef(null);
 
   const handleToggleFavorite = (movie) => {
-    setMovies((prev) =>
-      prev.map((m) =>
-        m.id === movie.id ? { ...m, isFavorite: !m.isFavorite } : m,
-      ),
-    );
+    setFavourites(prevFavourites => {
+      const isAlreadyFavourited = prevFavourites.some((fav) =>fav.id === movie.id);
+
+      return isAlreadyFavourited ? prevFavourites.filter((fav) => fav.id !== movie.id) : 
+        [...prevFavourites, movie];
+    })
   };
 
   const favorites = movies.filter((m) => m.isFavorite);
@@ -85,7 +116,9 @@ export default function App() {
         {view === 'browse' ? (
           <MediaGrid
             ref={sentinelRef}
-            movies={movies}
+            movies={movies.map((movie) => ({...movie, 
+              isFavorite: favourites.some((fav) => fav.id === movie.id)
+            }))}
             onToggleFavorite={handleToggleFavorite}
             heading="Trending Now"
             isLoading={false}
@@ -94,7 +127,7 @@ export default function App() {
           />
         ) : (
           <FavoritesView
-            favorites={favorites}
+            favorites={favourites}
             onToggleFavorite={handleToggleFavorite}
           />
         )}

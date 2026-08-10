@@ -71,11 +71,13 @@ const MediaGrid = forwardRef(function MediaGrid(
         )}
 
         {/* ── Infinite-scroll sentinel ── */}
-        <div
-          ref={ref}
-          className="cs-grid__sentinel"
-          aria-hidden="true"
-        />
+        {movies.length > 0 && (
+          <div
+            ref={ref}
+            className="cs-grid__sentinel"
+            aria-hidden="true"
+          />
+        )}
       </div>
     </section>
   );
