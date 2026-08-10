@@ -1,0 +1,83 @@
+/* ============================================================
+   FavoritesView.css — Dedicated favorites section
+   ============================================================ */
+
+.cs-favorites {
+  width: 100%;
+}
+
+/* ── Hero banner at the top ── */
+.cs-favorites__banner {
+  position: relative;
+  padding: var(--cs-space-3xl) var(--cs-space-xl) var(--cs-space-2xl);
+  margin-bottom: var(--cs-space-xl);
+  border-radius: var(--cs-radius-xl);
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.12) 0%,
+    rgba(124, 58, 237, 0.08) 50%,
+    rgba(22, 22, 34, 0.6) 100%
+  );
+  border: 1px solid rgba(229, 9, 20, 0.15);
+  overflow: hidden;
+}
+
+.cs-favorites__banner::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--cs-accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cs-favorites__banner-title {
+  font-size: var(--cs-font-size-2xl);
+  font-weight: 800;
+  color: var(--cs-text-primary);
+  margin-bottom: var(--cs-space-xs);
+  position: relative;
+}
+
+.cs-favorites__banner-sub {
+  font-size: var(--cs-font-size-base);
+  color: var(--cs-text-secondary);
+  position: relative;
+}
+
+.cs-favorites__banner-count {
+  color: var(--cs-accent);
+  font-weight: 700;
+}
+
+/* ── Empty state (inherits grid empty but with extra flair) ── */
+.cs-favorites__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cs-space-md);
+  padding: var(--cs-space-3xl) var(--cs-space-lg);
+  text-align: center;
+}
+
+.cs-favorites__empty-icon {
+  font-size: 4rem;
+  color: var(--cs-heart-active);
+  opacity: 0.3;
+}
+
+.cs-favorites__empty-title {
+  font-size: var(--cs-font-size-lg);
+  font-weight: 600;
+  color: var(--cs-text-secondary);
+}
+
+.cs-favorites__empty-text {
+  font-size: var(--cs-font-size-sm);
+  color: var(--cs-text-muted);
+  max-width: 340px;
+}

@@ -1,0 +1,156 @@
+/* ============================================================
+   Cine-Stream — Global Design Tokens & Reset
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* ── Surface Palette ── */
+  --cs-bg-primary: #0a0a0f;
+  --cs-bg-secondary: #12121a;
+  --cs-bg-tertiary: #1a1a28;
+  --cs-bg-card: #161622;
+  --cs-bg-card-hover: #1e1e30;
+  --cs-bg-glass: rgba(22, 22, 34, 0.72);
+
+  /* ── Accent Palette ── */
+  --cs-accent: #e50914;
+  --cs-accent-hover: #ff1a26;
+  --cs-accent-glow: rgba(229, 9, 20, 0.35);
+  --cs-accent-secondary: #b81d24;
+  --cs-gradient-primary: linear-gradient(135deg, #e50914 0%, #b81d24 100%);
+  --cs-gradient-accent: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+
+  /* ── AI / Mood Matcher Palette ── */
+  --cs-ai-accent: #7c3aed;
+  --cs-ai-hover: #8b5cf6;
+  --cs-ai-glow: rgba(124, 58, 237, 0.35);
+  --cs-gradient-ai: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+
+  /* ── Text ── */
+  --cs-text-primary: #f1f1f5;
+  --cs-text-secondary: #a1a1b5;
+  --cs-text-muted: #6b6b80;
+  --cs-text-on-accent: #ffffff;
+
+  /* ── Borders / Rings ── */
+  --cs-border: rgba(255, 255, 255, 0.06);
+  --cs-border-hover: rgba(255, 255, 255, 0.12);
+  --cs-ring-focus: rgba(229, 9, 20, 0.5);
+
+  /* ── Favorite ── */
+  --cs-heart-active: #ff2d55;
+  --cs-heart-inactive: #6b6b80;
+
+  /* ── Rating ── */
+  --cs-rating-star: #fbbf24;
+
+  /* ── Shadows ── */
+  --cs-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.32);
+  --cs-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --cs-shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.56);
+  --cs-shadow-glow: 0 0 30px var(--cs-accent-glow);
+
+  /* ── Radii ── */
+  --cs-radius-sm: 6px;
+  --cs-radius-md: 10px;
+  --cs-radius-lg: 16px;
+  --cs-radius-xl: 24px;
+  --cs-radius-full: 9999px;
+
+  /* ── Spacing ── */
+  --cs-space-xs: 4px;
+  --cs-space-sm: 8px;
+  --cs-space-md: 16px;
+  --cs-space-lg: 24px;
+  --cs-space-xl: 32px;
+  --cs-space-2xl: 48px;
+  --cs-space-3xl: 64px;
+
+  /* ── Timing ── */
+  --cs-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --cs-transition-fast: 150ms var(--cs-ease);
+  --cs-transition-base: 250ms var(--cs-ease);
+  --cs-transition-slow: 400ms var(--cs-ease);
+
+  /* ── Z-index layers ── */
+  --cs-z-header: 100;
+  --cs-z-overlay: 200;
+  --cs-z-modal: 300;
+
+  /* ── Typography ── */
+  --cs-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --cs-font-size-xs: 0.75rem;
+  --cs-font-size-sm: 0.8125rem;
+  --cs-font-size-base: 0.9375rem;
+  --cs-font-size-lg: 1.125rem;
+  --cs-font-size-xl: 1.5rem;
+  --cs-font-size-2xl: 2rem;
+  --cs-font-size-3xl: 2.5rem;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--cs-font-family);
+  background-color: var(--cs-bg-primary);
+  color: var(--cs-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cs-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--cs-bg-tertiary);
+  border-radius: var(--cs-radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cs-text-muted);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--cs-accent);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}

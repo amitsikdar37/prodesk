@@ -1,0 +1,141 @@
+/* ============================================================
+   SearchBar.css — Dual-input search with AI mood matcher
+   ============================================================ */
+
+.cs-search {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-sm);
+  flex: 1;
+  max-width: 640px;
+}
+
+/* ── Shared input wrapper ── */
+.cs-search__group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-search__group--mood {
+  flex: 0.8;
+}
+
+.cs-search__icon {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  font-size: 1rem;
+  color: var(--cs-text-muted);
+  pointer-events: none;
+  transition: color var(--cs-transition-fast);
+  z-index: 1;
+}
+
+.cs-search__group:focus-within .cs-search__icon {
+  color: var(--cs-accent);
+}
+
+.cs-search__group--mood:focus-within .cs-search__icon {
+  color: var(--cs-ai-accent);
+}
+
+/* ── Input fields ── */
+.cs-search__input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  font-family: var(--cs-font-family);
+  font-size: var(--cs-font-size-sm);
+  font-weight: 400;
+  color: var(--cs-text-primary);
+  background: var(--cs-bg-tertiary);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-full);
+  outline: none;
+  transition: all var(--cs-transition-fast);
+}
+
+.cs-search__input::placeholder {
+  color: var(--cs-text-muted);
+}
+
+.cs-search__input:hover {
+  border-color: var(--cs-border-hover);
+  background: var(--cs-bg-card-hover);
+}
+
+.cs-search__input:focus {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 3px var(--cs-ring-focus);
+  background: var(--cs-bg-card);
+}
+
+/* Mood-specific focus ring */
+.cs-search__input--mood:focus {
+  border-color: var(--cs-ai-accent);
+  box-shadow: 0 0 0 3px var(--cs-ai-glow);
+}
+
+/* ── AI Submit button ── */
+.cs-search__ai-btn {
+  position: absolute;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 14px;
+  font-size: var(--cs-font-size-xs);
+  font-weight: 600;
+  color: var(--cs-text-on-accent);
+  background: var(--cs-gradient-ai);
+  border-radius: var(--cs-radius-full);
+  transition: all var(--cs-transition-fast);
+  white-space: nowrap;
+}
+
+.cs-search__ai-btn:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 16px var(--cs-ai-glow);
+}
+
+.cs-search__ai-btn:active {
+  transform: scale(0.96);
+}
+
+.cs-search__ai-icon {
+  font-size: 0.85rem;
+  display: flex;
+}
+
+/* ── Divider between the two inputs ── */
+.cs-search__divider {
+  width: 1px;
+  height: 24px;
+  flex-shrink: 0;
+  background: var(--cs-border);
+  border-radius: var(--cs-radius-full);
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .cs-search {
+    max-width: 420px;
+  }
+
+  .cs-search__group--mood {
+    display: none;
+  }
+
+  .cs-search__divider {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-search {
+    display: none;
+  }
+}
