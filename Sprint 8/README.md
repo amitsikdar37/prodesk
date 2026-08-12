@@ -1,18 +1,40 @@
-# React + Vite
+# Cine-Stream
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Cine-Stream is a modern, responsive React Single Page Application (SPA) designed to let users explore popular movies, search the TMDB database, and use an AI-powered mood matcher to find the perfect film.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **TMDB API Integration**: Fetches real-time popular movies and search results directly from The Movie Database (TMDB).
+- **Infinite Scroll**: Utilizes the native `IntersectionObserver` API for seamless, performant infinite scrolling without heavy external libraries.
+- **AI Mood Matcher**: Powered by Google Gemini 1.5 Flash. Type how you are feeling (e.g., "I'm sad but want an action movie"), and the AI will recommend a movie and automatically trigger a search for it.
+- **State Persistence (Favorites)**: Users can favorite movies by clicking the heart icon. Favorites are saved in the browser's `localStorage` and persist across page reloads.
+- **Debounced Search**: Optimized network requests ensure TMDB is only queried after the user has stopped typing.
+- **Asset Lazy Loading**: Movie posters are lazy-loaded natively via HTML5 `loading="lazy"` for rapid initial page rendering.
+- **Responsive Design**: Includes a custom mobile-first layout that shifts the search bar dynamically based on screen size.
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 18** (Hooks: `useState`, `useEffect`, `useRef`)
+- **Vite** (Build tool)
+- **Vanilla CSS** (Custom CSS variables, Flexbox, CSS Grid)
+- **Google Gen AI SDK** (`@google/genai`)
+- **React Icons** (`react-icons`)
 
-## Expanding the Oxlint configuration
+## Setup Instructions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
-
-
+1. **Clone the repository** and open the project directory.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Set up Environment Variables**:
+   Create a `.env` file in the root of your project and add your API keys:
+   ```env
+   VITE_TMDB_API_KEY=your_tmdb_api_key_here
+   VITE_GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+4. **Run the Development Server**:
+   ```bash
+   npm run dev
+   ```
+5. **Open your browser** and navigate to `http://localhost:5173`.

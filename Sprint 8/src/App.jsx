@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Header, SearchBar, MediaGrid, FavoritesView } from './components';
 import './App.css';
+import { GoogleGenAI } from "@google/genai";
 
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
   const [query, setQuery] = useState('');
   const [moodQuery, setMoodQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isAiLoading, setIsAiLoading] = useState(false);
   const [favourites, setFavourites] = useState(() => {
     const saved = localStorage.getItem('movie-favorites')
     return saved ? JSON.parse(saved) : [];
@@ -52,23 +55,65 @@ export default function App() {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
     const res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&page=${page}`);
     const data = await res.json();
-    if (page === 1) {
-      setMovies(data.results);
-    } else {
-      setMovies(prevMovies => [...prevMovies, ...data.results]);
+    if (data.results) {
+      setHasMore(data.results.length === 20);
+      if (page === 1) {
+        setMovies(data.results);
+      } else {
+        setMovies(prevMovies => [...prevMovies, ...data.results]);
+      }
     }
   }
 
   const fetchSearchedMovies = async (query) => {
     const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`);
     const data = await res.json();
-    setMovies(data.results);
-    setPage(1);
+    if (data.results) {
+      setHasMore(data.results.length === 20);
+      if (page === 1) {
+        setMovies(data.results);
+      } else {
+        setMovies(prevMovies => [...prevMovies, ...data.results]);
+      }
+    }
   }
 
+  const handleMoodSubmit = async () => {
+    
+    if (moodQuery.trim() === '') return;
 
-  // Ref for the IntersectionObserver sentinel
+    setIsAiLoading(true);
+
+    const prompt = `You are a movie recommendation engine. 
+    Based on the following mood, recommend exactly ONE movie title. 
+    Return ONLY the title, no punctuation, no extra text. 
+    Mood: ${moodQuery}`;
+
+    const ai = new GoogleGenAI({apiKey: import.meta.env.VITE_GEMINI_API_KEY});
+
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.6-flash',
+        contents: prompt,
+      });
+      
+      const movieTitle = response.text.trim();
+      console.log(movieTitle);
+
+      if (movieTitle) {
+        setQuery(movieTitle);
+        setPage(1);
+        setMoodQuery('');
+        setView('browse');
+      }
+    } catch (error) {
+      console.error("Gemini failed to find a match:", error);
+    } finally {
+      setIsAiLoading(false);
+    }
+  }
+
   const sentinelRef = useRef(null);
 
   const handleToggleFavorite = (movie) => {
@@ -80,8 +125,8 @@ export default function App() {
     })
   };
 
-  const favorites = movies.filter((m) => m.isFavorite);
-  /* ────────── END DEMO STATE ────────── */
+
+
 
   return (
     <div className="cs-app">
@@ -89,14 +134,15 @@ export default function App() {
       <Header
         activeView={view}
         onNavigate={setView}
-        favoritesCount={favorites.length}
+        favoritesCount={favourites.length}
       >
         <SearchBar
           query={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => { setQuery(e.target.value); setPage(1); }}
           moodQuery={moodQuery}
           onMoodChange={(e) => setMoodQuery(e.target.value)}
-          onMoodSubmit={() => console.log('Mood submitted:', moodQuery)}
+          onMoodSubmit={handleMoodSubmit}
+          isAiLoading={isAiLoading}
         />
       </Header>
 
@@ -106,10 +152,11 @@ export default function App() {
         <div className="cs-mobile-search">
           <SearchBar
             query={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setPage(1); }}
             moodQuery={moodQuery}
             onMoodChange={(e) => setMoodQuery(e.target.value)}
-            onMoodSubmit={() => console.log('Mood submitted:', moodQuery)}
+            onMoodSubmit={handleMoodSubmit}
+            isAiLoading={isAiLoading}
           />
         </div>
 
@@ -122,6 +169,7 @@ export default function App() {
             onToggleFavorite={handleToggleFavorite}
             heading="Trending Now"
             isLoading={false}
+            hasMore={hasMore}
             emptyTitle="No movies found"
             emptyMessage="Try a different search or describe your mood to discover something new."
           />

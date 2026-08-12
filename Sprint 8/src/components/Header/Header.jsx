@@ -1,15 +1,6 @@
 import { FiFilm, FiHeart, FiGrid } from 'react-icons/fi';
 import './Header.css';
 
-/**
- * Header — Fixed top bar with logo and navigation.
- *
- * @param {Object}   props
- * @param {string}   props.activeView        – "browse" | "favorites"
- * @param {Function} props.onNavigate        – (view: string) => void
- * @param {number}   [props.favoritesCount]  – badge count for the Favorites tab
- * @param {React.ReactNode} [props.children] – slot for injecting SearchBar inline
- */
 export default function Header({
   activeView = 'browse',
   onNavigate,

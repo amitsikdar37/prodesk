@@ -3,27 +3,13 @@ import { FiFilm } from 'react-icons/fi';
 import MediaCard from '../MediaCard/MediaCard';
 import './MediaGrid.css';
 
-/**
- * MediaGrid — Responsive auto-fill grid that renders MediaCards.
- *
- * The sentinel `<div>` at the bottom receives a forwarded ref so the
- * consumer can attach an IntersectionObserver for infinite scrolling.
- *
- * @param {Object}    props
- * @param {Array}     props.movies             – array of movie objects
- * @param {Function}  props.onToggleFavorite    – (movie) => void
- * @param {string}    [props.heading]           – optional section title
- * @param {boolean}   [props.isLoading]         – show spinner below the grid
- * @param {string}    [props.emptyTitle]        – heading when the list is empty
- * @param {string}    [props.emptyMessage]      – description when the list is empty
- * @param {React.Ref} ref                       – forwarded to the sentinel div
- */
 const MediaGrid = forwardRef(function MediaGrid(
   {
     movies = [],
     onToggleFavorite,
     heading,
     isLoading = false,
+    hasMore = true,
     emptyTitle = 'Nothing here yet',
     emptyMessage = 'Start exploring to fill this space with great movies.',
   },
@@ -71,7 +57,7 @@ const MediaGrid = forwardRef(function MediaGrid(
         )}
 
         {/* ── Infinite-scroll sentinel ── */}
-        {movies.length > 0 && (
+        {movies.length > 0 && hasMore && (
           <div
             ref={ref}
             className="cs-grid__sentinel"

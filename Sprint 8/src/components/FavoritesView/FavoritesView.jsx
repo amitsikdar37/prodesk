@@ -3,16 +3,6 @@ import MediaCard from '../MediaCard/MediaCard';
 import '../MediaGrid/MediaGrid.css';
 import './FavoritesView.css';
 
-/**
- * FavoritesView — A dedicated view for favorited movies.
- *
- * Renders a hero banner + a grid of favorited MediaCards.
- * Uses the shared MediaGrid CSS grid tokens for consistency.
- *
- * @param {Object}   props
- * @param {Array}    props.favorites         – array of favorited movie objects
- * @param {Function} props.onToggleFavorite   – (movie) => void
- */
 export default function FavoritesView({ favorites = [], onToggleFavorite }) {
   return (
     <section className="cs-favorites" aria-label="Your Favorites">

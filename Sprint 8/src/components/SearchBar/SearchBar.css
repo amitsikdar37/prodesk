@@ -73,6 +73,11 @@
 }
 
 /* Mood-specific focus ring */
+.cs-search__input--mood {
+  /* Give extra right padding so long sentences don't hide under the absolute Match button */
+  padding-right: 90px;
+}
+
 .cs-search__input--mood:focus {
   border-color: var(--cs-ai-accent);
   box-shadow: 0 0 0 3px var(--cs-ai-glow);
@@ -108,6 +113,15 @@
 .cs-search__ai-icon {
   font-size: 0.85rem;
   display: flex;
+}
+
+.cs-search__ai-icon--spin {
+  animation: cs-ai-spin 1.2s linear infinite;
+}
+
+@keyframes cs-ai-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ── Divider between the two inputs ── */

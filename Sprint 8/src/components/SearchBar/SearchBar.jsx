@@ -1,30 +1,17 @@
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiLoader } from 'react-icons/fi';
 import { HiOutlineSparkles } from 'react-icons/hi2';
 import './SearchBar.css';
 
-/**
- * SearchBar — Dual-input search strip.
- *
- * Left input  → standard movie title query (controlled via onChange).
- * Right input → AI Mood Matcher free-text prompt (submitted via onMoodSubmit).
- *
- * @param {Object}   props
- * @param {string}   [props.query]        – current search value (controlled)
- * @param {Function} props.onChange        – (e: ChangeEvent) => void
- * @param {string}   [props.moodQuery]    – current mood input value (controlled)
- * @param {Function} [props.onMoodChange] – (e: ChangeEvent) => void
- * @param {Function} props.onMoodSubmit   – (e: FormEvent) => void
- */
 export default function SearchBar({
   query = '',
   onChange,
   moodQuery = '',
   onMoodChange,
   onMoodSubmit,
+  isAiLoading = false,
 }) {
   return (
     <div className="cs-search" role="search" aria-label="Search movies">
-      {/* ── Standard Search ── */}
       <div className="cs-search__group">
         <span className="cs-search__icon" aria-hidden="true">
           <FiSearch />
@@ -42,8 +29,7 @@ export default function SearchBar({
       </div>
 
       <span className="cs-search__divider" aria-hidden="true" />
-
-      {/* ── AI Mood Matcher ── */}
+      
       <form
         className="cs-search__group cs-search__group--mood"
         onSubmit={(e) => {
@@ -68,9 +54,12 @@ export default function SearchBar({
           type="submit"
           className="cs-search__ai-btn"
           aria-label="Match mood"
+          disabled={isAiLoading}
         >
-          <span className="cs-search__ai-icon"><HiOutlineSparkles /></span>
-          Match
+          <span className={`cs-search__ai-icon ${isAiLoading ? 'cs-search__ai-icon--spin' : ''}`}>
+            {isAiLoading ? <FiLoader /> : <HiOutlineSparkles />}
+          </span>
+          {isAiLoading ? 'Matching...' : 'Match'}
         </button>
       </form>
     </div>

@@ -2,19 +2,6 @@ import { FiHeart, FiFilm } from 'react-icons/fi';
 import { FaHeart, FaStar } from 'react-icons/fa';
 import './MediaCard.css';
 
-/**
- * MediaCard — Individual movie poster card.
- *
- * Purely presentational; all interactivity is lifted to the parent.
- *
- * @param {Object}   props
- * @param {string}   props.title           – movie title
- * @param {string}   [props.year]          – release year
- * @param {number}   [props.rating]        – numeric rating (0–10)
- * @param {string}   [props.posterUrl]     – URL to poster image
- * @param {boolean}  [props.isFavorite]    – whether the movie is favorited
- * @param {Function} props.onToggleFavorite – () => void
- */
 export default function MediaCard({
   title,
   year,
@@ -25,7 +12,6 @@ export default function MediaCard({
 }) {
   return (
     <article className="cs-card" aria-label={title}>
-      {/* ── Poster ── */}
       <div className="cs-card__poster-wrap">
         {posterUrl ? (
           <img

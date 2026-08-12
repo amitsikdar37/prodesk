@@ -47,3 +47,14 @@ Consider adding an error boundary to your tree to customize error handling behav
 Visit https://react.dev/link/error-boundaries to learn more about error boundaries
 
 4. my favourite section is not getting updated even though i am clicking the favourite the button. 
+
+5. why am i getting this error in browser console ??? 
+
+@google_genai.js?v=20d26fe4:19482 Uncaught (in promise) Error: An API Key must be set when running in a browser
+    at new GoogleGenAI (@google_genai.js?v=20d26fe4:19482:37)
+    at handleMoodSubmit (App.jsx:80:16)
+    at onSubmit (SearchBar.jsx:36:11)
+
+when google docs says that it automatically detects the api key in environement variable. 
+
+6. bro right now when i am typing something long in the mood search bar its getting hidden and i am not able to see the full sentence. can you fix this issue. 
