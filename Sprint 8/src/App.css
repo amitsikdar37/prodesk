@@ -36,7 +36,13 @@
 
   .cs-mobile-search .cs-search {
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
     max-width: 100%;
+  }
+
+  .cs-mobile-search .cs-search__divider {
+    display: none;
   }
 }
 

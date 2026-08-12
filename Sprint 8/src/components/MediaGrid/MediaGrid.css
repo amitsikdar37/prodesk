@@ -27,8 +27,15 @@
 /* ── Grid layout ── */
 .cs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: var(--cs-space-lg);
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--cs-space-md);
+}
+
+@media (min-width: 640px) {
+  .cs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: var(--cs-space-lg);
+  }
 }
 
 @media (min-width: 768px) {

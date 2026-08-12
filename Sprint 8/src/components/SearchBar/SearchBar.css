@@ -139,11 +139,8 @@
     max-width: 420px;
   }
 
-  .cs-search__group--mood {
-    display: none;
-  }
-
-  .cs-search__divider {
+  .cs-header .cs-search__group--mood,
+  .cs-header .cs-search__divider {
     display: none;
   }
 }
