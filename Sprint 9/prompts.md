@@ -1,0 +1,1 @@
+[node](terminal;1652) what are these errors bro i am seeing ??

@@ -4,6 +4,14 @@ const app = express();
 const PORT = 5000;
 
 
+app.use((req, res, next) => {
+    const method = req.method;
+    const url = req.url;
+    const time = new Date().toLocaleTimeString();
+    console.log(`[${method}] ${url} - ${time}`);
+    next();
+});
+
 app.use(express.json());
 
 let blogPosts = [
@@ -68,6 +76,14 @@ app.delete('/posts/:id',(req, res) => {
     }
 });
 
+app.post('/login', (req, res) => {
+    const {email, password} = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+    }
+    const mockToken = "mock-jwt-token-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xyz123";
+    return res.status(200).json({ message: "Login successful", token: mockToken });
+});
 
 
 app.listen(PORT, () => {
