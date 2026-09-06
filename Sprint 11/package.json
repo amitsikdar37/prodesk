@@ -1,0 +1,11 @@
+{
+  "name": "sprint-11",
+  "version": "1.0.0",
+  "description": "Sprint 11 - Fullstack MERN System Integration",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "start": "node server/index.js",
+    "build": "cd client && npm run build"
+  }
+}
