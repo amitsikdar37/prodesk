@@ -4,12 +4,20 @@ This project integrates a React/Vite Single Page Application with a Node.js/Expr
 
 ---
 
-## 📌 Phase 1 Highlights
+## 📌 Phase Overview
 
+### Phase 1: Network Connection & CORS Configuration
 - **Network Connection**: React frontend is hydrated with local Node.js API endpoints (`http://localhost:5000/api/posts`).
 - **Data Fetching**: Uses React `useEffect` to execute GET requests to the backend database and render the payloads immediately.
 - **CORS Resolution**: Configured the `cors` middleware package in Express to authorize requests originating from Vite's development server (`http://localhost:5173`).
 - **Database & Resilience**: Integrated Mongoose with MongoDB and an in-memory fallback mechanism to ensure continuous functionality even during offline testing.
+
+### Phase 2: Full CRUD UI Pipeline
+- **Data Injection**: Form submits POST requests to inject new post documents into MongoDB.
+- **Data Deletion**: Delete button dispatches DELETE requests to the server and mutates local DOM state immediately without full page reloads.
+- **Data Update**: Edit action enables inline editing of posts and dispatches PUT requests to update MongoDB documents.
+- **State Management**: Dynamic loading states (`submitting`, `deletingId`, `updating`, initial `loading`) prevent duplicate operations and provide immediate visual feedback.
+- **Error Boundary**: Dedicated React Error Boundary component catches runtime rendering exceptions and presents a clean error recovery UI.
 
 ---
 
@@ -22,12 +30,15 @@ Sprint 11/
 │   ├── package.json
 │   ├── vite.config.js
 │   └── src/
+│       ├── components/
+│       │   └── ErrorBoundary.jsx
 │       ├── App.css
 │       ├── App.jsx
 │       ├── index.css
 │       └── main.jsx
 ├── server/
 │   ├── .env
+│   ├── .env.example
 │   ├── index.js
 │   ├── package.json
 │   └── models/
@@ -71,16 +82,17 @@ The client application will run at `http://localhost:5173`.
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/posts` | Fetch all posts from the database |
-| `POST` | `/api/posts` | Create a new blog post |
-| `DELETE` | `/api/posts/:id` | Delete a post by ID |
+| `GET` | `/api/posts` | Fetch all posts from MongoDB |
+| `POST` | `/api/posts` | Create and inject a new blog post |
+| `PUT` | `/api/posts/:id` | Update an existing post in MongoDB |
+| `DELETE` | `/api/posts/:id` | Delete a post from MongoDB |
 | `GET` | `/api/health` | Health check & database connection status |
 
 ---
 
 ## 🛡️ CORS Configuration
 
-In `server/index.js`, the CORS middleware is installed and configured as follows:
+In `server/index.js`, the CORS middleware is configured to authorize client origins:
 
 ```javascript
 const cors = require('cors');
@@ -90,5 +102,3 @@ app.use(cors({
   credentials: true
 }));
 ```
-
-This prevents the browser from throwing a Cross-Origin Resource Sharing block when the React client on port `5173` communicates with the Express server on port `5000`.

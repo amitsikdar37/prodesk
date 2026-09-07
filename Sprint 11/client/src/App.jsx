@@ -14,6 +14,13 @@ export default function App() {
   const [author, setAuthor] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  const [deletingId, setDeletingId] = useState(null);
+
+  const [editingId, setEditingId] = useState(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
+  const [updating, setUpdating] = useState(false);
+
   const fetchPosts = () => {
     setLoading(true);
     setError(null);
@@ -44,7 +51,7 @@ export default function App() {
   const handleCreatePost = (e) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
-      alert('Please provide title and content');
+      alert('Please fill out both title and content');
       return;
     }
 
@@ -75,12 +82,14 @@ export default function App() {
         setSubmitting(false);
       })
       .catch((err) => {
-        alert('Error saving post: ' + err.message);
+        alert('Error creating post: ' + err.message);
         setSubmitting(false);
       });
   };
 
   const handleDeletePost = (id) => {
+    setDeletingId(id);
+
     fetch(`${API_URL}/${id}`, {
       method: 'DELETE'
     })
@@ -92,23 +101,77 @@ export default function App() {
       })
       .then(() => {
         setPosts((prevPosts) => prevPosts.filter((p) => (p._id || p.id) !== id));
+        setDeletingId(null);
       })
       .catch((err) => {
-        alert('Could not delete post: ' + err.message);
+        alert('Error deleting post: ' + err.message);
+        setDeletingId(null);
+      });
+  };
+
+  const handleStartEdit = (post) => {
+    const id = post._id || post.id;
+    setEditingId(id);
+    setEditTitle(post.title);
+    setEditContent(post.content);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditTitle('');
+    setEditContent('');
+  };
+
+  const handleUpdatePost = (id) => {
+    if (!editTitle.trim() || !editContent.trim()) {
+      alert('Title and content cannot be empty');
+      return;
+    }
+
+    setUpdating(true);
+
+    fetch(`${API_URL}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: editTitle.trim(),
+        content: editContent.trim()
+      })
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to update post');
+        }
+        return res.json();
+      })
+      .then((updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) => ((p._id || p.id) === id ? updatedPost : p))
+        );
+        setEditingId(null);
+        setEditTitle('');
+        setEditContent('');
+        setUpdating(false);
+      })
+      .catch((err) => {
+        alert('Error updating post: ' + err.message);
+        setUpdating(false);
       });
   };
 
   return (
     <div className="container">
       <header className="header">
-        <div className="header-badge">Sprint 11 Integration</div>
-        <h1>Fullstack Data Pipeline</h1>
+        <div className="header-badge">Sprint 11 - Phase 2</div>
+        <h1>Full CRUD UI Pipeline</h1>
         <p className="subtitle">
-          React SPA connected to Express & MongoDB REST API with CORS configured
+          Data injection, instant DOM mutations on deletion, and inline updates connected to MongoDB.
         </p>
         <div className="status-bar">
           <span className={`status-indicator ${serverOnline ? 'online' : 'offline'}`}>
-            {serverOnline ? 'API Connected (Port 5000)' : 'API Disconnected'}
+            {serverOnline ? 'MongoDB & API Connected (Port 5000)' : 'API Disconnected'}
           </span>
           <span className="cors-tag">CORS Enabled</span>
         </div>
@@ -154,23 +217,23 @@ export default function App() {
             </div>
 
             <button type="submit" className="submit-btn" disabled={submitting}>
-              {submitting ? 'Publishing...' : 'Publish Post'}
+              {submitting ? 'Injecting Data...' : 'Publish to Database'}
             </button>
           </form>
         </section>
 
         <section className="feed-card">
           <div className="feed-header">
-            <h2>Live Feed</h2>
-            <button className="refresh-btn" onClick={fetchPosts}>
-              Refresh
+            <h2>Live Documents Feed ({posts.length})</h2>
+            <button className="refresh-btn" onClick={fetchPosts} disabled={loading}>
+              {loading ? 'Refreshing...' : 'Refresh'}
             </button>
           </div>
 
           {loading && (
             <div className="info-box">
               <div className="spinner"></div>
-              <p>Fetching posts from database...</p>
+              <p>Fetching records from MongoDB...</p>
             </div>
           )}
 
@@ -179,15 +242,15 @@ export default function App() {
               <p>Could not connect to backend server:</p>
               <code>{error}</code>
               <p className="error-hint">
-                Make sure your Express server is running on port 5000 with CORS enabled.
+                Ensure Node.js Express server is running on port 5000 with CORS enabled.
               </p>
-              <button className="retry-btn" onClick={fetchPosts}>Try Again</button>
+              <button className="retry-btn" onClick={fetchPosts}>Retry Connection</button>
             </div>
           )}
 
           {!loading && !error && posts.length === 0 && (
             <div className="info-box">
-              <p>No posts available yet. Create one on the left!</p>
+              <p>No documents found in MongoDB. Inject a new post using the form!</p>
             </div>
           )}
 
@@ -195,21 +258,72 @@ export default function App() {
             <div className="posts-list">
               {posts.map((post) => {
                 const postId = post._id || post.id;
+                const isEditing = editingId === postId;
+                const isDeleting = deletingId === postId;
                 const formattedDate = post.createdAt
                   ? new Date(post.createdAt).toLocaleDateString()
                   : 'Just now';
+
+                if (isEditing) {
+                  return (
+                    <article key={postId} className="post-item edit-mode">
+                      <div className="form-group">
+                        <label>Edit Title</label>
+                        <input
+                          type="text"
+                          value={editTitle}
+                          onChange={(e) => setEditTitle(e.target.value)}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Edit Content</label>
+                        <textarea
+                          rows="3"
+                          value={editContent}
+                          onChange={(e) => setEditContent(e.target.value)}
+                        />
+                      </div>
+                      <div className="edit-actions">
+                        <button
+                          className="save-btn"
+                          onClick={() => handleUpdatePost(postId)}
+                          disabled={updating}
+                        >
+                          {updating ? 'Saving...' : 'Save Changes'}
+                        </button>
+                        <button
+                          className="cancel-btn"
+                          onClick={handleCancelEdit}
+                          disabled={updating}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </article>
+                  );
+                }
 
                 return (
                   <article key={postId} className="post-item">
                     <div className="post-top">
                       <h3>{post.title}</h3>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDeletePost(postId)}
-                        title="Delete post"
-                      >
-                        &times;
-                      </button>
+                      <div className="post-actions">
+                        <button
+                          className="edit-btn"
+                          onClick={() => handleStartEdit(post)}
+                          title="Edit post"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDeletePost(postId)}
+                          disabled={isDeleting}
+                          title="Delete post"
+                        >
+                          {isDeleting ? '...' : 'Delete'}
+                        </button>
+                      </div>
                     </div>
                     <p className="post-content">{post.content}</p>
                     <div className="post-meta">

@@ -22,3 +22,15 @@ Whenever i run `node index.js`, mongoose crashes the whole server if local mongo
 
 ### Prompt 5: Delete Post Not Updating UI
 When i click delete button on a post, the delete request works on the server, but the post card stays on the screen until i manually refresh the browser. How do i update the react state to remove the deleted post immediately?
+
+### Prompt 6: Prevent Duplicate Form Submissions
+When users click the submit button multiple times while the server is saving the post to MongoDB, it creates duplicate documents. How can i add a submitting loading state to disable the button and show "Injecting Data..." until the fetch completes?
+
+### Prompt 7: Optimistic Local State Mutation for Delete
+Should i re-run fetchPosts() to reload everything after deleting a post or should i filter the local posts array with setPosts? How do i show a deleting state on just that one card so user knows it's being deleted?
+
+### Prompt 8: React Error Boundary for Runtime Crashes
+My react app shows a completely blank white screen whenever there is an unhandled rendering error. How do i build a simple ErrorBoundary component in React using componentDidCatch to display a clean fallback card with a reload button?
+
+### Prompt 9: Implementing Edit with PUT in Express and React
+I want to let users edit a post title and content directly on the page. How do i make a PUT route in Express with mongoose findByIdAndUpdate, and how do i toggle edit mode for a post in React and update the state array?

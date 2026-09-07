@@ -203,8 +203,13 @@
   transition: background-color 0.2s;
 }
 
-.refresh-btn:hover {
+.refresh-btn:hover:not(:disabled) {
   background-color: #475569;
+}
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .info-box {
@@ -287,6 +292,11 @@
   transform: translateY(-2px);
 }
 
+.post-item.edit-mode {
+  border-color: var(--primary);
+  background-color: #131d33;
+}
+
 .post-top {
   display: flex;
   justify-content: space-between;
@@ -302,19 +312,81 @@
   line-height: 1.4;
 }
 
-.delete-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0 0.3rem;
-  transition: color 0.15s;
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.delete-btn:hover {
-  color: var(--danger);
+.edit-btn {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.edit-btn:hover {
+  background-color: rgba(59, 130, 246, 0.3);
+}
+
+.delete-btn {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.3);
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.save-btn {
+  background-color: var(--accent);
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #334155;
+  color: var(--text-main);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .post-content {

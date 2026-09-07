@@ -125,11 +125,48 @@ const deletePostHandler = async (req, res) => {
   }
 };
 
+const updatePostHandler = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { title, content, author } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({ error: 'Title and content are required' });
+    }
+
+    if (isMongoConnected) {
+      const updated = await Post.findByIdAndUpdate(
+        id,
+        { title, content, author },
+        { new: true }
+      );
+      if (!updated) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+      return res.status(200).json(updated);
+    }
+
+    const post = memoryPosts.find(p => p._id === id || String(p.id) === id);
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    post.title = title;
+    post.content = content;
+    if (author) post.author = author;
+    return res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update post', message: err.message });
+  }
+};
+
 app.get('/api/posts', getPostsHandler);
 app.get('/posts', getPostsHandler);
 
 app.post('/api/posts', createPostHandler);
 app.post('/posts', createPostHandler);
+
+app.put('/api/posts/:id', updatePostHandler);
+app.put('/posts/:id', updatePostHandler);
 
 app.delete('/api/posts/:id', deletePostHandler);
 app.delete('/posts/:id', deletePostHandler);
